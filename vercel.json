@@ -1,9 +1,7 @@
 {
-	"builds": [
-		{
-			"src": "apps/web/next.config.js",
-			"use": "@vercel/next"
-		}
-	],
-	"outputDirectory": "apps/web/.next"
+	"version": 2,
+	"public": false,
+	"github": {
+		"enabled": false
+	}
 }
