@@ -1,0 +1,22 @@
+
+{
+    "extends": "@mpesaflow/typescript-config/base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        }
+    },
+    "include": [
+        "apps/**/*",
+        "packages/**/*",
+        "scripts/**/*",
+        "types/**/*",
+        "utils/**/*",
+        "webpack/**/*",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts"
+    ],
+    "exclude": ["node_modules"]
+}
