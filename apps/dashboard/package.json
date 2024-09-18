@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@clerk/clerk-react": "^5.5.5",
+		"@clerk/elements": "^0.15.4",
 		"@clerk/nextjs": "^5.5.5",
 		"@mpesaflow/kv": "workspace:*",
 		"@mpesaflow/ui": "workspace:*",
