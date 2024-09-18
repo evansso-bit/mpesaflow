@@ -5,7 +5,7 @@ import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@c
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider signInUrl="/login" signUpUrl="/sign-up">
+    <ClerkProvider>
       <html lang="en">
         <body>
           <header>
