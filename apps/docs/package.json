@@ -6,5 +6,6 @@
 	},
 	"devDependencies": {
 		"mintlify": "^4.0.219"
-	}
+	},
+	"dependencies": {}
 }

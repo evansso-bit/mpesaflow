@@ -10,6 +10,9 @@
 	"exports": {
 		"./button": "./src/components/button.tsx",
 		"./card": "./src/components/card.tsx",
+		"./input": "./src/components/input.tsx",
+		"./label": "./src/components/label.tsx",
+		"./icons": "./src/components/icons.tsx",
 		"./code": "./src/code.tsx",
 		"./tailwind.config": "./tailwind.config.ts",
 		"./cn": "./src/utils/cn.ts",

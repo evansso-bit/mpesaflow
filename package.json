@@ -19,5 +19,8 @@
 	"workspaces": [
 		"apps/*",
 		"packages/*"
-	]
+	],
+	"dependencies": {
+		"mintlify": "^4.0.222"
+	}
 }
