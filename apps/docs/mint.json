@@ -1,11 +1,19 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "MpesaFlow",
+  "name": "Starter Kit",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
-    "dark": "#0D9373"
+    "dark": "#0D9373",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
   },
   "topbarLinks": [
     {
@@ -15,7 +23,7 @@
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.reelhype.space"
+    "url": "https://dashboard.mintlify.com"
   },
   "tabs": [
     {
@@ -69,12 +77,15 @@
     {
       "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/paybill",
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/delete"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/MpesaFlow",
-    "github": "https://github.com/MpesaFlow"
+    "x": "https://x.com/mintlify",
+    "github": "https://github.com/mintlify",
+    "linkedin": "https://www.linkedin.com/company/mintsearch"
   }
 }
