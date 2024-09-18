@@ -2,15 +2,15 @@
 	"$schema": "https://mintlify.com/schema.json",
 	"name": "MpesaFlow",
 	"logo": {
-		"dark": "/logo/dark.svg",
-		"light": "/logo/light.svg"
+		"dark": "/logo/light.svg",
+		"light": "/logo/dark.svg"
 	},
 	"favicon": "/favicon.svg",
 
 	"colors": {
 		"primary": "#34C759",
 		"light": "#FF3B30",
-		"dark": "#0D9373",
+		"dark": "#34C759",
 		"anchors": {
 			"from": "#0D9373",
 			"to": "#07C983"
