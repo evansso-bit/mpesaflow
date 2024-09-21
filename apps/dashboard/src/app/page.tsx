@@ -1,12 +1,16 @@
-import Image from "next/image";
-import { Button } from "@mpesaflow/ui/button";
+import { sendWelcomeEmail } from "../components/send-email";
 
 
 
-export default function Home() {
+
+export default async function Home() {
+
+  const data = await sendWelcomeEmail();
   return (
     <h1>
       dashboard page AGAIN
+
+      <pre>{JSON.stringify(data)}</pre>
     </h1>
   )
 }

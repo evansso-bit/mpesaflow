@@ -3,7 +3,6 @@ import "@mpesaflow/ui/globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 
 import { Toaster } from '@mpesaflow/ui/sonner'
-import { sendWelcomeEmail } from "../components/send-email";
 
 
 import { Inter } from 'next/font/google'
@@ -18,8 +17,8 @@ const inter = Inter({
 })
 
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  await sendWelcomeEmail();
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <ClerkProvider>
       <html lang="en">

@@ -33,6 +33,7 @@ export async function sendWelcomeEmail() {
                 } else if (data) {
                     await redis.sadd('welcome-emails', primaryEmail);
                     toast.success('Welcome email sent successfully!');
+                    return Response.json({ data }, { status: 200 });
                 }
 
             } catch (error) {
