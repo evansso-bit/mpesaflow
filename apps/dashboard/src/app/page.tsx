@@ -10,7 +10,7 @@ export default async function Home() {
     <h1>
       dashboard page AGAIN
 
-      <pre>{JSON.stringify(data)}</pre>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </h1>
   )
 }

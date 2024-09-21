@@ -5,16 +5,19 @@ import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { redis } from "@mpesaflow/kv";
 import { StripeWelcomeEmail } from "../emails/welcome";
+import { currentUser } from '@clerk/nextjs/server'
+
 
 
 
 export async function sendWelcomeEmail() {
+    const user = await currentUser()
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const { isSignedIn, user } = useUser()
+
     const primaryEmail = user?.primaryEmailAddress?.emailAddress;
     const isAlreadySent = await redis.sismember('welcome-emails', primaryEmail);
 
-    if (isSignedIn) {
+    if (user) {
         if (!isAlreadySent) {
 
             try {
