@@ -1,11 +1,11 @@
 'use server'
 
 import { Resend } from "resend";
-import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { redis } from "@mpesaflow/kv";
 import { StripeWelcomeEmail } from "../emails/welcome";
 import { currentUser } from '@clerk/nextjs/server'
+import { revalidatePath } from "next/cache";
 
 
 
@@ -37,6 +37,7 @@ export async function sendWelcomeEmail() {
                     await redis.sadd('welcome-emails', primaryEmail);
                     toast.success('Welcome email sent successfully!');
                     return Response.json({ data }, { status: 200 });
+                    revalidatePath('/');
                 }
 
             } catch (error) {
