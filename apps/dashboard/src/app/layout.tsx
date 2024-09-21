@@ -1,6 +1,5 @@
 'use client'
 
-import type { Metadata } from "next";
 import "@mpesaflow/ui/globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 import { redis } from "@mpesaflow/kv";
@@ -16,19 +15,11 @@ import { useUser } from "@clerk/nextjs";
 import { Resend } from "resend";
 import { useEffect } from "react";
 
-
-
-
-
 const inter = Inter({
   display: 'swap',
   subsets: ['latin'],
 })
 
-export const metadata: Metadata = {
-  title: 'Dashboard | MpesaFlow',
-  description: 'MpesaFlow Dashboard with Analytics'
-}
 
 
 
