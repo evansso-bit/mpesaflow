@@ -10,7 +10,10 @@ export default function MainNav() {
     <nav
       className={cn(
         "w-[350px] px-3 py-4 min-h-screen border-r border-border bg-background flex flex-col justify-between",
-        pathname === "/" && "hidden",
+        pathname === "/sign-up" ||
+          pathname === "/login"
+          ? "hidden"
+          : "",
       )}
     >
       <div className="flex flex-row gap-4">

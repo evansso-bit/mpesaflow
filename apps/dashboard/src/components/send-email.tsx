@@ -1,8 +1,8 @@
 // Add this import at the top of your file
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 // Add this export to make the route dynamic
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 import { currentUser } from "@clerk/nextjs/server";
 import { redis } from "@mpesaflow/kv";
