@@ -1,81 +1,94 @@
-# Turborepo starter
+# MpesaFlow Platform
 
-This is an official starter Turborepo.
+MpesaFlow Platform is a comprehensive solution for managing M-Pesa transactions, providing real-time insights, and streamlining payment processes for businesses in Kenya. This monorepo contains all the necessary applications and packages to run the entire MpesaFlow ecosystem.
 
-## Using this example
+## Project Structure
 
-Run the following command:
+This monorepo contains the following packages and applications:
 
-```sh
-npx create-turbo@latest
-```
+- `apps/web`: Main customer-facing website
+- `apps/dashboard`: Admin dashboard for managing transactions and analytics
+- `apps/api`: Backend API service
+- `packages/ui`: Shared UI components
+- `packages/database`: Database schemas and utilities
+- `packages/auth`: Authentication and authorization utilities
+- `packages/analytics`: Analytics and tracking utilities
 
-## What's inside?
+## Tech Stack
 
-This Turborepo includes the following packages/apps:
+### Frontend
+- Next.js 13 (App Router)
+- React 18
+- TypeScript
+- Tailwind CSS
+- shadcn/ui (UI component library)
+- Lucide React (Icons)
+- Recharts (Data visualization)
+- PostHog (Analytics)
 
-### Apps and Packages
+### Backend
+- TypeScript
+- Drizzle ORM (Database ORM)
+- NeonDB (PostgreSQL database)
+- Upstash Redis (Caching and rate limiting)
+- Clerk (Authentication)
+- Resend (Email service)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@mpesaflow/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@mpesaflow/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@mpesaflow/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### DevOps & Tooling
+- Turborepo (Monorepo management)
+- Bun (JavaScript runtime and package manager)
+- Biome (Linting and formatting)
+- Jest (Testing)
+- GitHub Actions (CI/CD)
+- Vercel (Deployment)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Other Services
+- Trigger.dev (Background jobs and workflows)
+- Stripe (Payment processing)
 
-### Utilities
+## Getting Started
 
-This Turborepo has some additional tools already setup for you:
+### Prerequisites
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- Node.js 16.8 or later
+- Bun package manager
 
-### Build
+### Installation
 
-To build all apps and packages, run the following command:
+1. Clone the repository:
+git clone [https://github.com/your-username/mpesaflow-platform.git](https://github.com/your-username/mpesaflow-platform.git)
+cd mpesaflow-platform
 
-```
-cd my-turborepo
-pnpm build
-```
+2. Install dependencies:
+    bun install
 
-### Develop
 
-To develop all apps and packages, run the following command:
+3. Set up environment variables:
+Create a `.env` file in the root directory and add the necessary variables. Refer to `.env.example` for required variables.
 
-```
-cd my-turborepo
-pnpm dev
-```
+4. Run the development servers:
+   bun run dev
 
-### Remote Caching
+This will start all applications and watch for changes in packages.
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+## Package Details
 
-```
-cd my-turborepo
-npx turbo login
-```
+- `@mpesaflow/ui`: Shared UI components using shadcn/ui and Tailwind CSS
+- `@mpesaflow/database`: Database utilities integrated with Drizzle ORM
+- `@mpesaflow/auth`: Authentication utilities integrated with Clerk
+- `@mpesaflow/analytics`: Analytics integration with PostHog
+- `@mpesaflow/kv`: Key-value store integration with Upstash Redis
+- `@mpesaflow/email`: Email utilities integrated with Resend
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## API Documentation
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+API documentation is available at `/api/docs` when running the API service locally.
 
-```
-npx turbo link
-```
+## Contributing
 
-## Useful Links
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-Learn more about the power of Turborepo:
+## License
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
