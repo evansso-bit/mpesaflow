@@ -3,9 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": ".",
-        "paths": {
-            "@/*": ["./*"]
-        }
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["src", "turbo"],
   "exclude": ["node_modules", "dist"]
