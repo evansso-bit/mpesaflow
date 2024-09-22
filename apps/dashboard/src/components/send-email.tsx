@@ -1,4 +1,8 @@
-"use server";
+// Add this import at the top of your file
+import { headers } from 'next/headers';
+
+// Add this export to make the route dynamic
+export const dynamic = 'force-dynamic';
 
 import { currentUser } from "@clerk/nextjs/server";
 import { redis } from "@mpesaflow/kv";
@@ -8,6 +12,9 @@ import { StripeWelcomeEmail } from "../emails/welcome";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendWelcomeEmail() {
+  // Force headers to be used, making the function dynamic
+  headers();
+
   try {
     const user = await currentUser();
     if (!user) {
