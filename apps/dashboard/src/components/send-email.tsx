@@ -32,7 +32,7 @@ export async function sendWelcomeEmail() {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "support@reelhype.space",
       to: primaryEmail,
       subject: "Welcome to MpesaFlow",
       react: StripeWelcomeEmail(),
