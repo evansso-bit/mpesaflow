@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "@mpesaflow/ui/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { PHProvider } from "@mpesaflow/analytics";
+import { cn } from "@mpesaflow/ui/cn";
 import { Toaster } from "@mpesaflow/ui/sonner";
 import { Inter } from "next/font/google";
 import MainNav from "../components/main-nav";
-import { cn } from "@mpesaflow/ui/cn";
 
 const inter = Inter({
   display: "swap",
@@ -21,22 +22,24 @@ export default function RootLayout({
 }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body>
-          <header>
-            <MainNav />
-            <Toaster />
-          </header>
-          <main
-            className={cn(
-              "min-h-screen antialiased w-full bg-background text-foreground",
-              inter.className,
-            )}
-          >
-            {children}
-          </main>
-        </body>
-      </html>
+      <PHProvider>
+        <html lang="en">
+          <body className="flex flex-row w-full">
+            <header>
+              <MainNav />
+              <Toaster />
+            </header>
+            <main
+              className={cn(
+                "min-h-screen antialiased w-full bg-background text-foreground",
+                inter.className,
+              )}
+            >
+              {children}
+            </main>
+          </body>
+        </html>
+      </PHProvider>
     </ClerkProvider>
   );
 }
