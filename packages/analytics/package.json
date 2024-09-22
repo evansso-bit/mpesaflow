@@ -1,16 +1,17 @@
 {
-  "name": "@mpesaflow/analytics",
-  "module": "src/index.tsx",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.tsx"
-  },
-  "devDependencies": {},
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@clerk/nextjs": "^5.6.0",
-    "posthog-js": "^1.163.0"
-  }
+	"name": "@mpesaflow/analytics",
+	"module": "src/index.tsx",
+	"type": "module",
+	"exports": {
+		".": "./src/index.tsx"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.24",
+		"typescript": "^5.3.3",
+		"react": "^18.2.0"
+	},
+	"dependencies": {
+		"@clerk/nextjs": "^5.6.0",
+		"posthog-js": "^1.163.0"
+	}
 }
