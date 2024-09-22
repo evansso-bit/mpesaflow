@@ -1,88 +1,88 @@
 {
-	"$schema": "https://mintlify.com/schema.json",
-	"name": "MpesaFlow",
-	"logo": {
-		"dark": "/logo/light.svg",
-		"light": "/logo/dark.svg"
-	},
-	"favicon": "/favicon.svg",
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "MpesaFlow",
+  "logo": {
+    "dark": "/logo/light.svg",
+    "light": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
 
-	"colors": {
-		"primary": "#34C759",
-		"light": "#FF3B30",
-		"dark": "#34C759",
-		"anchors": {
-			"from": "#0D9373",
-			"to": "#07C983"
-		}
-	},
-	"topbarLinks": [
-		{
-			"name": "Support",
-			"url": "mailto:hi@mintlify.com"
-		}
-	],
-	"topbarCtaButton": {
-		"name": "Dashboard",
-		"url": "https://dashboard.mintlify.com"
-	},
-	"tabs": [
-		{
-			"name": "API Reference",
-			"url": "api-reference"
-		}
-	],
-	"anchors": [
-		{
-			"name": "Documentation",
-			"icon": "book-open-cover",
-			"url": "https://mintlify.com/docs"
-		},
-		{
-			"name": "Community",
-			"icon": "slack",
-			"url": "https://mintlify.com/community"
-		},
-		{
-			"name": "Blog",
-			"icon": "newspaper",
-			"url": "https://mintlify.com/blog"
-		}
-	],
-	"navigation": [
-		{
-			"group": "Get Started",
-			"pages": ["introduction", "quickstart", "development"]
-		},
-		{
-			"group": "Essentials",
-			"pages": [
-				"essentials/markdown",
-				"essentials/code",
-				"essentials/images",
-				"essentials/settings",
-				"essentials/navigation",
-				"essentials/reusable-snippets"
-			]
-		},
-		{
-			"group": "API Documentation",
-			"pages": ["api-reference/introduction"]
-		},
-		{
-			"group": "Endpoint Examples",
-			"pages": ["api-reference/endpoint/paybill"]
-		}
-	],
-	"footerSocials": {
-		"x": "https://x.com/MpesaFlow",
-		"github": "https://github.com/MpesaFlow",
-		"linkedin": "https://www.linkedin.com/company/MpesaFlow"
-	},
-	"analytics": {
-		"posthog": {
-			"apiKey": "phc_85y8Zfx2UWTlSF2rnbo3TP40wccplM5nmfnjN3zsHg5",
-			"apiHost": "https://us.i.posthog.com"
-		}
-	}
+  "colors": {
+    "primary": "#34C759",
+    "light": "#FF3B30",
+    "dark": "#34C759",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:hi@mintlify.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://dashboard.mintlify.com"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "https://mintlify.com/docs"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://mintlify.com/community"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://mintlify.com/blog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": ["introduction", "quickstart", "development"]
+    },
+    {
+      "group": "Essentials",
+      "pages": [
+        "essentials/markdown",
+        "essentials/code",
+        "essentials/images",
+        "essentials/settings",
+        "essentials/navigation",
+        "essentials/reusable-snippets"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": ["api-reference/introduction"]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": ["api-reference/endpoint/paybill"]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/MpesaFlow",
+    "github": "https://github.com/MpesaFlow",
+    "linkedin": "https://www.linkedin.com/company/MpesaFlow"
+  },
+  "analytics": {
+    "posthog": {
+      "apiKey": "phc_85y8Zfx2UWTlSF2rnbo3TP40wccplM5nmfnjN3zsHg5",
+      "apiHost": "https://us.i.posthog.com"
+    }
+  }
 }

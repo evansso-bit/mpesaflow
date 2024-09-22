@@ -1,20 +1,20 @@
 {
-	"name": "@mpesaflow/kv",
-	"version": "0.0.0",
-	"private": true,
-	"exports": {
-		".": "./src/index.ts"
-	},
-	"scripts": {
-		"lint": "biome lint .",
-		"format": "biome format . --write",
-		"check": "biome check --apply ."
-	},
-	"dependencies": {
-		"@upstash/redis": "^1.34.0"
-	},
-	"devDependencies": {
-		"@types/node": "^20.11.24",
-		"typescript": "^5.3.3"
-	}
+  "name": "@mpesaflow/kv",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "format": "biome format . --write",
+    "check": "biome check --apply ."
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.34.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
 }
