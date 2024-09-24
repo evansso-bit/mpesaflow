@@ -35,7 +35,7 @@ export async function sendWelcomeEmail() {
       from: "support@reelhype.space",
       to: primaryEmail,
       subject: "Welcome to MpesaFlow",
-      react: StripeWelcomeEmail(),
+      react: StripeWelcomeEmail({ name: "there" }),
     });
 
     if (error) {

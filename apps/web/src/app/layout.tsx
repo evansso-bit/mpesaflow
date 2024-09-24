@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "@mpesaflow/ui/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import { PHProvider } from "@mpesaflow/analytics";
+import MainNav from "../components/main-nav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <PHProvider>
-        <body>{children}</body>
-      </PHProvider>
+      <ClerkProvider>
+        <PHProvider>
+          <body className="flex flex-col min-h-screen antialiased w-full bg-background text-foreground">
+            <MainNav />
+            <div>{children}</div>
+          </body>
+        </PHProvider>
+      </ClerkProvider>
     </html>
   );
 }
