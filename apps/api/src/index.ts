@@ -1,177 +1,85 @@
-import { createClerkClient } from "@clerk/backend";
-import { Redis } from "@upstash/redis/cloudflare";
+import { type UnkeyContext, unkey } from "@unkey/hono";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
+import { env } from "hono/adapter";
+import { convexMutation } from "./config/CovexMutation.js";
+import { fetchWithErrorHandling } from "./config/ErrorHandlingFetch.js";
+import { getMpesaToken } from "./config/GetMpesaToken.js";
+import { queryTransactionStatus } from "./config/QueryTransaction.js";
+import { generateTransactionId } from "./config/generateTransactionId.js";
+import type { Binding } from "./types/honoTypes.js";
+import { instrument, ResolveConfigFn } from "@microlabs/otel-cf-workers";
+import { config } from "./config/obesrvability.js";
 
-type Bindings = {
-	CLERK_SECRET_KEY: string;
-	CONSUMER_AUTH: string;
-	MPESA_OAUTH_URL: string;
-	MPESA_PROCESS_URL: string;
-	MPESA_QUERY_URL: string;
-	BUSINESS_SHORT_CODE: string;
-	PASS_KEY: string;
-	UPSTASH_REDIS_REST_URL: string;
-	UPSTASH_REDIS_REST_TOKEN: string;
-};
+const app = new Hono<{
+	Bindings: Binding;
+	Variables: { unkey: UnkeyContext };
+	Env: Binding;
+}>();
 
-const app = new Hono<{ Bindings: Bindings }>();
+// Custom CORS middleware
+app.use("*", async (c, next) => {
+	const origin = c.req.header("Origin");
+	const allowedOrigin = c.env.ALLOWED_ORIGIN || "https://dev.mpesaflow.com";
 
-app.use("*", cors());
+	if (origin === allowedOrigin) {
+		c.header("Access-Control-Allow-Origin", origin);
+		c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+		c.header("Access-Control-Allow-Credentials", "true");
+		c.header("Access-Control-Max-Age", "86400");
 
-async function validateAuth(c: any, next: () => Promise<void>) {
-	const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, CLERK_SECRET_KEY } =
-		c.env;
-	const clerk = createClerkClient({ secretKey: CLERK_SECRET_KEY });
-	const sessionToken = c.req.header("Authorization")?.split(" ")[1];
-	const apiToken = c.req.header("X-API-Token");
-	const sessionId = c.req.header("X-Session-Id");
-
-	const redis = new Redis({
-		url: UPSTASH_REDIS_REST_URL,
-		token: UPSTASH_REDIS_REST_TOKEN,
-	});
-
-	async function validateApiToken(token: string): Promise<string | null> {
-		const userId = await redis.get(`api_token:${token}`);
-		return userId as string | null;
-	}
-
-	if (sessionToken) {
-		try {
-			const session = await clerk.sessions.verifySession(
-				sessionId,
-				sessionToken
-			);
-			c.set("userId", session.userId);
-			await next();
-			return;
-		} catch (error) {
-			// Session invalid, fall through to API token check
+		// Handle preflight request
+		if (c.req.method === "OPTIONS") {
+			return c.text("", 204);
 		}
 	}
 
-	if (apiToken) {
-		const userId = await validateApiToken(apiToken);
-		if (userId) {
-			c.set("userId", userId);
-			await next();
-			return;
-		}
-	}
+	await next();
+});
 
-	return c.json({ error: "Unauthorized" }, 401);
-}
-
-function checkEnvVariables(env: Bindings): void {
-	const requiredVars = [
-		"CLERK_SECRET_KEY",
-		"CONSUMER_AUTH",
-		"MPESA_OAUTH_URL",
-		"MPESA_PROCESS_URL",
-		"MPESA_QUERY_URL",
-		"BUSINESS_SHORT_CODE",
-		"PASS_KEY",
-	];
-
-	for (const varName of requiredVars) {
-		if (!env[varName as keyof Bindings]) {
-			throw new Error(`Missing required environment variable: ${varName}`);
-		}
-	}
-}
-
-async function getMpesaToken(c: any) {
-	const { CONSUMER_AUTH, MPESA_OAUTH_URL } = c.env;
-
-	console.log("Fetching M-Pesa token from:", MPESA_OAUTH_URL);
-
-	const response = await fetch(
-		`${MPESA_OAUTH_URL}?grant_type=client_credentials`,
-		{
-			method: "GET",
-			headers: {
-				Authorization: `Basic ${CONSUMER_AUTH}`,
-			},
-		}
-	);
-
-	if (!response.ok) {
-		const errorText = await response.text();
-		console.error("Failed to fetch M-Pesa token:", response.status, errorText);
-		throw new Error(
-			`Failed to fetch M-Pesa token: ${response.status} ${errorText}`
-		);
-	}
-
-	const data = await response.json();
-	console.log("M-Pesa token fetched successfully");
-	return data.access_token;
-}
-
-async function queryTransactionStatus(
-	token: string,
-	body: any,
-	MPESA_QUERY_URL: string
-) {
-	const res = await fetch(MPESA_QUERY_URL, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
+app.use(
+	"*",
+	unkey({
+		apiId: (c: any) => {
+			const { UNKEY_API_ID } = env<Binding>(c);
+			return UNKEY_API_ID;
 		},
-		body: JSON.stringify(body),
-	});
-
-	const data = await res.json();
-
-	if (data.errorCode === "500.001.1001") {
-		throw new Error("TRANSACTION_IN_PROCESS");
-	}
-
-	if (!res.ok) {
-		console.error("Failed to query transaction status:", res.status, data);
-		throw new Error(
-			`Failed to query transaction status: ${res.status} ${JSON.stringify(data)}`
-		);
-	}
-
-	return data;
-}
-
-app.use("/paybill", validateAuth);
+	})
+);
 
 app.post("/paybill", async (c) => {
 	try {
-		checkEnvVariables(c.env);
+		const unkeyContext = c.get("unkey");
+		if (!unkeyContext?.valid) {
+			return c.json({ error: "Unauthorized" }, 401);
+		}
 
 		const {
 			MPESA_PROCESS_URL,
 			MPESA_QUERY_URL,
 			BUSINESS_SHORT_CODE,
 			PASS_KEY,
-		} = c.env;
+			CONVEX_URL,
+		} = env(c);
 
 		console.log("MPESA_PROCESS_URL:", MPESA_PROCESS_URL);
 		console.log("MPESA_QUERY_URL:", MPESA_QUERY_URL);
 		console.log("BUSINESS_SHORT_CODE:", BUSINESS_SHORT_CODE);
 		console.log("PASS_KEY is set:", !!PASS_KEY);
+		console.log("CONVEX_URL:", CONVEX_URL);
 
 		const token = await getMpesaToken(c);
 
 		const body = await c.req.json();
 		console.log("Request body:", body);
 
-		const date = new Date();
-		const timestamp =
-			date.getFullYear() +
-			("0" + (date.getMonth() + 1)).slice(-2) +
-			("0" + date.getDate()).slice(-2) +
-			("0" + date.getHours()).slice(-2) +
-			("0" + date.getMinutes()).slice(-2) +
-			("0" + date.getSeconds()).slice(-2);
-
+		const timestamp = new Date()
+			.toISOString()
+			.replace(/[^0-9]/g, "")
+			.slice(0, -3);
 		const password = btoa(`${BUSINESS_SHORT_CODE}${PASS_KEY}${timestamp}`);
+
+		const transactionId = generateTransactionId();
 
 		const mpesaRequestBody = {
 			BusinessShortCode: BUSINESS_SHORT_CODE,
@@ -182,13 +90,16 @@ app.post("/paybill", async (c) => {
 			PartyA: body.phoneNumber,
 			PartyB: BUSINESS_SHORT_CODE,
 			PhoneNumber: body.phoneNumber,
-			CallBackURL: body.callbackUrl,
+			CallBackURL: `${c.req.url.split("/paybill")[0]}/mpesa-callback`,
 			AccountReference: body.accountReference,
 			TransactionDesc: body.transactionDesc,
 		};
 
+		const numbers = Number(body.amount);
+		console.log("Numbers:", numbers);
+
 		console.log("Sending request to:", MPESA_PROCESS_URL);
-		const mpesaResponse = await fetch(MPESA_PROCESS_URL, {
+		const mpesaData = await fetchWithErrorHandling(MPESA_PROCESS_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -197,20 +108,21 @@ app.post("/paybill", async (c) => {
 			body: JSON.stringify(mpesaRequestBody),
 		});
 
-		if (!mpesaResponse.ok) {
-			const errorText = await mpesaResponse.text();
-			console.error(
-				"M-Pesa process request failed:",
-				mpesaResponse.status,
-				errorText
-			);
-			throw new Error(
-				`M-Pesa process request failed: ${mpesaResponse.status} ${errorText}`
-			);
-		}
-
-		const mpesaData = await mpesaResponse.json();
 		console.log("M-Pesa process response:", mpesaData);
+		console.log("unkeyId", unkeyContext.keyId);
+
+		console.log("ADDING TO DATABASE");
+		await convexMutation(CONVEX_URL, "transactions:create", {
+			userId: unkeyContext.keyId,
+			transactionId: transactionId,
+			amount: numbers,
+			phoneNumber: body.phoneNumber,
+			accountReference: body.accountReference,
+			transactionDesc: body.transactionDesc,
+			mpesaRequestId: mpesaData.CheckoutRequestID,
+			status: "pending",
+		});
+		console.log("Added to database, transaction ID:", transactionId);
 
 		const statusBody = {
 			BusinessShortCode: BUSINESS_SHORT_CODE,
@@ -219,48 +131,137 @@ app.post("/paybill", async (c) => {
 			CheckoutRequestID: mpesaData.CheckoutRequestID,
 		};
 
+		console.log("statusBodys:", statusBody);
+		console.log("transactionStatus", token, statusBody, MPESA_QUERY_URL);
+
 		let statusData;
 		let attempts = 0;
 		const maxAttempts = 5;
 		const pollingInterval = 5000; // 5 seconds
 
 		while (attempts < maxAttempts) {
-			try {
-				statusData = await queryTransactionStatus(
-					token,
-					statusBody,
-					MPESA_QUERY_URL
+			statusData = await queryTransactionStatus(
+				token,
+				statusBody,
+				MPESA_QUERY_URL
+			);
+
+			if (statusData.status === "pending") {
+				console.log(
+					`Transaction still processing. Attempt ${attempts + 1} of ${maxAttempts}`
 				);
-				break; // If successful, exit the loop
-			} catch (error: any) {
-				if (error.message === "TRANSACTION_IN_PROCESS") {
-					console.log(
-						`Transaction still processing. Attempt ${attempts + 1} of ${maxAttempts}`
-					);
-					await new Promise((resolve) => setTimeout(resolve, pollingInterval));
-					attempts++;
-				} else {
-					throw error; // If it's a different error, throw it
-				}
+				await new Promise((resolve) => setTimeout(resolve, pollingInterval));
+				attempts++;
+			} else {
+				break;
 			}
 		}
 
-		if (!statusData) {
+		if (!statusData || statusData.status === "pending") {
+			await convexMutation(CONVEX_URL, "transactions:updateStatus", {
+				transactionId,
+				status: "pending",
+				resultDesc:
+					"Transaction status could not be determined after multiple attempts",
+			});
 			return c.json(
 				{
-					error:
-						"Transaction status could not be determined after multiple attempts",
+					transactionId: transactionId,
+					mpesaRequestId: mpesaData.CheckoutRequestID,
+					status: "pending",
+					message:
+						"Transaction is still being processed. Please check back later.",
 				},
-				504
+				202
 			);
 		}
 
+		await convexMutation(CONVEX_URL, "transactions:updateStatus", {
+			transactionId,
+			status: statusData.ResultCode === "0" ? "completed" : "failed",
+			resultDesc: statusData.ResultDesc,
+		});
+
 		console.log("Final M-Pesa status:", statusData);
-		return c.json({ mpesaStatus: statusData }, 200);
+		return c.json(
+			{
+				transactionId: transactionId,
+				mpesaRequestId: mpesaData.CheckoutRequestID,
+				mpesaStatus: statusData,
+			},
+			200
+		);
 	} catch (error: any) {
 		console.error("Error processing M-Pesa request:", error);
 		return c.json({ error: error.message }, 500);
 	}
 });
 
-export default app;
+app.post("/mpesa-callback", async (c) => {
+	try {
+		const callbackData = await c.req.json();
+		console.log("Received M-Pesa callback:", callbackData);
+
+		const { ResultCode, ResultDesc, CheckoutRequestID } =
+			callbackData.Body.stkCallback;
+
+		const { CONVEX_URL } = env(c);
+		await convexMutation(CONVEX_URL, "transactions:updateStatus", {
+			mpesaRequestId: CheckoutRequestID,
+			status: ResultCode === "0" ? "completed" : "failed",
+			resultDesc: ResultDesc,
+		});
+
+		return c.json({
+			ResultCode: "0",
+			ResultDesc: "Callback received successfully",
+		});
+	} catch (error: any) {
+		console.error("Error processing M-Pesa callback:", error);
+		return c.json(
+			{ ResultCode: "1", ResultDesc: "Error processing callback" },
+			500
+		);
+	}
+});
+
+app.get("/transaction-status/:transactionId", async (c) => {
+	try {
+		const { transactionId } = c.req.param();
+		const { CONVEX_URL } = env(c);
+
+		const unkeyContext = c.get("unkey");
+		if (!unkeyContext?.valid) {
+			return c.json({ error: "Unauthorized" }, 401);
+		}
+
+		const transactionStatus = await convexMutation(
+			CONVEX_URL,
+			"transactions:getStatus",
+			{
+				transactionId: transactionId,
+				userId: unkeyContext.keyId,
+			}
+		);
+
+		if (!transactionStatus) {
+			return c.json({ error: "Transaction not found" }, 404);
+		}
+
+		return c.json(transactionStatus);
+	} catch (error: any) {
+		console.error("Error fetching transaction status:", error);
+		return c.json({ error: error.message }, 500);
+	}
+});
+
+app.get("/health", async (c) => {
+	const headers = c.req.header("User-Agent");
+	if (headers === "OpenStatus/1.0") {
+		return c.text("OK", 200);
+	} else {
+		return c.text("Not OK", 500);
+	}
+});
+
+export default instrument(app, config);

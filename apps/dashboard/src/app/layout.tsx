@@ -6,6 +6,7 @@ import { cn } from "@mpesaflow/ui/cn";
 import { Toaster } from "@mpesaflow/ui/sonner";
 import { Inter } from "next/font/google";
 import MainNav from "../components/main-nav";
+import { ConvexClientProvider } from "../providers/ConvexClientProvider";
 
 const inter = Inter({
   display: "swap",
@@ -23,22 +24,23 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <PHProvider>
-        <html lang="en">
-          <body className="flex flex-row w-full">
-            <header>
-              <MainNav />
-              <Toaster />
-            </header>
-            <main
-              className={cn(
-                "min-h-screen antialiased w-full bg-background text-foreground",
-                inter.className,
-              )}
-            >
-              {children}
-            </main>
-          </body>
-        </html>
+        <ConvexClientProvider>
+          <html lang="en">
+            <body className="flex flex-row w-full">
+              <header>
+                <Toaster />
+              </header>
+              <main
+                className={cn(
+                  "min-h-screen antialiased w-full bg-background text-foreground",
+                  inter.className,
+                )}
+              >
+                {children}
+              </main>
+            </body>
+          </html>
+        </ConvexClientProvider>
       </PHProvider>
     </ClerkProvider>
   );
