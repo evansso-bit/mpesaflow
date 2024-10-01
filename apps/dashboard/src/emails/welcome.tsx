@@ -17,7 +17,7 @@ const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 
-export const StripeWelcomeEmail = (p0: { name: string; }) => (
+export const StripeWelcomeEmail = (p0: { name: string }) => (
   <Html>
     <Head />
     <Preview>You're now ready to make live transactions with Stripe!</Preview>

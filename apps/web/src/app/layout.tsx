@@ -20,9 +20,7 @@ export default function RootLayout({
         <PHProvider>
           <body className="flex flex-col min-h-screen antialiased w-full bg-background text-foreground">
             <MainNav />
-            <div>
-              {children}
-            </div>
+            <div>{children}</div>
           </body>
         </PHProvider>
       </ClerkProvider>
