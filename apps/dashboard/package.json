@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbo",
-		"build": "npx convex deploy --cmd 'bun run build'",
+		"build": "npx convex deploy --cmd 'npm run build'",
 		"start": "next start",
 		"lint": "biome lint .",
 		"format": "biome format . --write",
