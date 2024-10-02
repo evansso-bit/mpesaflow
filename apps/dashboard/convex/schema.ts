@@ -9,13 +9,13 @@ export default defineSchema({
     emailAdress: v.string(),
     keyId: v.string(),
     applicationId: v.string(),
-    environment: v.string(),
+    enviroment: v.string(),
   }),
 
   applications: defineTable({
     userId: v.string(),
     name: v.string(),
     applicationId: v.string(),
-    environment: v.string(),
+    enviroment: v.string(),
   }),
 });

@@ -18,9 +18,6 @@ const config = {
       },
     },
     extend: {
-      fontFamily: {
-        departure: ["var(--font-departure-mono)"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

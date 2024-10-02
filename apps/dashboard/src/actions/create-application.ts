@@ -22,16 +22,20 @@ export async function createApplicationAction(
   const applicationId = crypto.randomUUID();
   const enviroment = "development";
 
+  if (Name && applicationId && enviroment) {
+
   await fetchMutation(api.appActions.createApplication, {
     userId: userId,
     name: Name,
     applicationId: applicationId,
-    environment: enviroment,
+    enviroment: enviroment,
   });
+redirect(`/flow/${applicationId}`);
+  }
 
-  redirect(`/d/${applicationId}`);
-
-  return {
+  
+return {
     message: "Application created successfully",
   };
+  
 }

@@ -1,5 +1,5 @@
-import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 export const createApiKey = mutation({
   args: {
@@ -9,7 +9,7 @@ export const createApiKey = mutation({
     emailAdress: v.string(),
     keyId: v.string(),
     applicationId: v.string(),
-    environment: v.string(),
+    enviroment: v.string(),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("apiKeys", args);
@@ -20,7 +20,7 @@ export const getApiKeys = query({
   args: {
     userId: v.string(),
     applicationId: v.string(),
-    environment: v.string(), // Note: Fixed typo in 'environment'
+    enviroment: v.string(), // Note: Fixed typo in 'environment'
   },
   handler: async (ctx, args) => {
     return await ctx.db
@@ -29,9 +29,34 @@ export const getApiKeys = query({
         q.and(
           q.eq(q.field("userId"), args.userId),
           q.eq(q.field("applicationId"), args.applicationId),
-          q.eq(q.field("environment"), args.environment),
+          q.eq(q.field("enviroment"), args.enviroment),
         ),
       )
       .collect();
+  },
+});
+
+export const updateApiKey = mutation({
+  args: {
+    name: v.string(),
+    keyId: v.string(),
+    _id: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { _id } = args;
+    return await ctx.db.patch(_id, {
+      name: args.name,
+      keyId: args.keyId,
+    });
+  },
+});
+
+export const deleteApiKey = mutation({
+  args: {
+    _id: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { _id } = args;
+    return await ctx.db.delete(args._id);
   },
 });

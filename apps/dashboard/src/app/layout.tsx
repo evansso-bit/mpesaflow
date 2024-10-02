@@ -4,14 +4,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { PHProvider } from "@mpesaflow/analytics";
 import { cn } from "@mpesaflow/ui/cn";
 import { Toaster } from "@mpesaflow/ui/sonner";
-import { Inter } from "next/font/google";
-import MainNav from "../components/main-nav";
 import { ConvexClientProvider } from "../providers/ConvexClientProvider";
-
-const inter = Inter({
-  display: "swap",
-  subsets: ["latin"],
-});
+import { calSans, inter } from "../styles/fonts";
+import HomeNav from "./_components/home-nav";
 
 export const metadata: Metadata = {
   title: "Dashboard | MpesaFlow",
@@ -20,24 +15,26 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: { children: React.ReactNode }) {
+  params,
+}: { children: React.ReactNode; params: { app_id: string } }) {
   return (
     <ClerkProvider>
       <PHProvider>
         <ConvexClientProvider>
           <html lang="en">
-            <body className="flex flex-row w-full">
+            <body
+              className={cn(
+                "min-h-screen antialiased w-full bg-background  flex flex-col text-foreground font-inter",
+                inter.variable,
+                calSans.variable,
+              )}
+            >
+              <Toaster />
               <header>
-                <Toaster />
+                <HomeNav appId={params.app_id} />
+
               </header>
-              <main
-                className={cn(
-                  "min-h-screen antialiased w-full bg-background text-foreground",
-                  inter.className,
-                )}
-              >
-                {children}
-              </main>
+              <main>{children}</main>
             </body>
           </html>
         </ConvexClientProvider>

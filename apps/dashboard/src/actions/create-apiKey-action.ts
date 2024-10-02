@@ -3,8 +3,11 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { api } from "convex/_generated/api";
 import { fetchMutation } from "convex/nextjs";
+import { revalidatePath } from "next/cache";
 import { CreateUserIdentity } from "../config/unkey/create-identity";
 import { verifyIdentity } from "../config/unkey/verify-identity";
+
+type State = { error: string | null; message: string | null };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function createApiKeyAction(prevState: any, formData: FormData) {
@@ -16,7 +19,9 @@ export async function createApiKeyAction(prevState: any, formData: FormData) {
   const user = await currentUser();
 
   if (!user && !userId) {
-    return "Please sign in to create an API key";
+    return {
+      error: "Please sign in to create an API key",
+    };
   }
 
   const { key, KeyId } = await CreateUserIdentity();
@@ -28,7 +33,7 @@ export async function createApiKeyAction(prevState: any, formData: FormData) {
       error: error,
     };
   }
-  
+
   if (valid) {
     await fetchMutation(api.apiActions.createApiKey, {
       key: key,
@@ -37,9 +42,9 @@ export async function createApiKeyAction(prevState: any, formData: FormData) {
       emailAdress: user?.emailAddresses[0]?.emailAddress ?? "",
       keyId: KeyId,
       applicationId: applicationId,
-      environment: environment,
+      enviroment: environment,
     });
+    revalidatePath(`/flow/${applicationId}/api-keys`);
+    return { message: "API key created successfully" };
   }
-
-  return { message: "API key created successfully" };
 }

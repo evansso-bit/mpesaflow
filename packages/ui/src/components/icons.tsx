@@ -1,6 +1,25 @@
+import {
+  ArrowLeftRight,
+  Code2,
+  EllipsisVertical,
+  LockIcon,
+  Plus,
+  Settings,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
+
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  code: Code2,
+  dropdown: EllipsisVertical,
+  edit: SquarePen,
+  delete: Trash2,
+  plus: Plus,
+  transaction: ArrowLeftRight,
+  settings: Settings,
+  lock: LockIcon,
   logo: (props: IconProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" {...props}>
       <rect width="256" height="256" fill="none" />
