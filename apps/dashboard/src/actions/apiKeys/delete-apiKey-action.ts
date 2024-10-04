@@ -9,17 +9,21 @@ export async function deleteApiKeyAction(prevState: any, formData: FormData) {
   const _id = formData.get("_id") as string;
   const appId = formData.get("appId") as string;
 
-  if (!_id) {
+  if (!_id && appId) {
     return {
       error: "API key not found",
     };
   }
 
-  await fetchMutation(api.apiActions.deleteApiKey, {
-    _id: _id,
-  });
+  try {
+    await fetchMutation(api.apiActions.deleteApiKey, {
+      _id: _id,
+    });
 
-  revalidatePath(`/flow/${appId}/api-keys`);
+    revalidatePath(`/flow/${appId}/api-keys`);
 
-  return { message: "API key deleted successfully" };
+    return { message: "API key deleted successfully" };
+  } catch (error) {
+    return { error: "Error deleting API key" };
+  }
 }

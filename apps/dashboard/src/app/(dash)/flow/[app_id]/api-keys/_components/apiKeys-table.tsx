@@ -1,8 +1,4 @@
-'use client'
-
 import { Badge } from "@mpesaflow/ui/badge";
-import CreateApiKey from "./create-apiKey";
-
 import {
   Table,
   TableBody,
@@ -13,6 +9,7 @@ import {
 } from "@mpesaflow/ui/table";
 import { api } from "convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
+import CreateApiKey from "./create-apiKey";
 import DropdownMenuComponent from "./dropdown-menu";
 
 export default async function ApiKeysTable({
@@ -49,6 +46,7 @@ export default async function ApiKeysTable({
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Key</TableHead>
+              <TableHead>Date Created</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -57,11 +55,11 @@ export default async function ApiKeysTable({
               <TableRow key={key._id}>
                 <TableCell>{key.name}</TableCell>
                 <TableCell>
-                  <Badge className="truncate" variant="secondary">
-                    {key.key}
+                  <Badge className="truncate w-[100px] overflow-hidden">
+                    {key.key}...
                   </Badge>
                 </TableCell>
-
+                <TableCell>{key._creationTime}</TableCell>
                 <TableCell>
                   <DropdownMenuComponent
                     appId={appId}

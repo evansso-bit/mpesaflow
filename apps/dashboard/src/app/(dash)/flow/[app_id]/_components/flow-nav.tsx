@@ -5,13 +5,17 @@ import { cn } from "@mpesaflow/ui/cn";
 import { Icons } from "@mpesaflow/ui/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 
-export default function MainNav({ appId }: { appId: string }) {
+export default function FlowNav() {
   const pathname = usePathname();
+  const params = useParams();
+
+
   return (
     <nav
       className={cn(
-        "w-[350px] px-3 bg-white py-4 h-screen   border-border bg-background flex flex-col justify-between",
+        "w-3/12 px-3 bg-white py-4 h-screen  flex flex-col justify-between",
         pathname === "/" ? "hidden" : "",
       )}
       style={{ position: "relative", zIndex: 10 }} // Add position: relative and z-index
@@ -21,10 +25,12 @@ export default function MainNav({ appId }: { appId: string }) {
         <div className="flex flex-col gap-3">
           <Link
             className={cn(
-              "flex flex-row gap-2 items-center px-2 rounded-lg hover:bg-muted",
-              pathname === `/flow/${appId}` ? "bg-green-500 " : "",
+              "flex flex-row gap-2 items-center px-2 rounded py-1 hover:bg-muted",
+              pathname === `/flow/${params.app_id}`
+                ? "bg-green-200 text-green-600"
+                : "",
             )}
-            href={`/d/${appId}`}
+            href={`/flow/${params.app_id}`}
           >
             <Icons.transaction className="w-5 h-5" />
             <p>Transactions</p>
@@ -32,10 +38,10 @@ export default function MainNav({ appId }: { appId: string }) {
 
           <Link
             className={cn(
-              "flex flex-row gap-2 items-center px-2 rounded-lg hover:bg-muted",
-              pathname === `/d/${appId}/api-keys` ? "bg-muted " : "",
+              "flex flex-row gap-2 items-center px-2 py-1 rounded hover:bg-muted",
+              pathname === `/flow/${params.app_id}/api-keys` ? "bg-muted " : "",
             )}
-            href={`/flow/${appId}/api-keys`}
+            href={`/flow/${params.app_id}/api-keys`}
           >
             <Icons.lock className="w-5 h-5" />
             <p>API Keys</p>

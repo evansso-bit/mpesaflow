@@ -1,6 +1,6 @@
 "use client";
 
-import { updateApiKeyAction } from "@//actions/update-apiKey-action";
+import { updateApiKeyAction } from "@//actions/apiKeys/update-apiKey-action";
 import { Button } from "@mpesaflow/ui/button";
 import {
   Dialog,
@@ -14,13 +14,9 @@ import {
 import { Icons } from "@mpesaflow/ui/icons";
 import { Input } from "@mpesaflow/ui/input";
 import { Label } from "@mpesaflow/ui/label";
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
-
-const initialMessage = {
-  message: "",
-};
 
 export default function EditApiKeyDialog({
   Id,
@@ -28,34 +24,29 @@ export default function EditApiKeyDialog({
   apiName,
   appId,
 }: { Id: string; keyId: string; apiName: string; appId: string }) {
-  const [state, formAction] = useFormState(updateApiKeyAction, initialMessage);
-  const [name, setName] = useState(apiName);
-  const [isOpen, setIsOpen] = useState(false);
+  const [state, formAction] = useFormState(updateApiKeyAction, undefined);
+  const [name, setName] = React.useState(apiName);
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  useEffect(() => {
-    if (state) {
+  React.useEffect(() => {
+    if (!state) {
+      return;
+    }
+    if ("message" in state) {
       setIsOpen(false);
-      setTimeout(() => {
-        if (state.error) {
-          toast.error(state.error);
-        } else {
-          toast.success("API key updated successfully");
-        }
-      }, 300); // Delay to ensure dialog closes first
+      toast(state.message);
+    } else if ("error" in state) {
+      setIsOpen(false);
+      toast(`Error updating API key: ${state}`);
     }
   }, [state]);
 
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (!open) {
-      setName(apiName); // Reset name when dialog is closed
-    }
-  };
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange} >
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-fit">Edit API Key</Button>
+        <div className="flex flex-row items-center">
+        <Icons.edit  className="size-4 mr-2"/>Edit
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -65,7 +56,7 @@ export default function EditApiKeyDialog({
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <div>
+          <div >
             <Label htmlFor="apiName">API Name</Label>
             <Input
               id="apiName"
@@ -80,7 +71,7 @@ export default function EditApiKeyDialog({
             <input type="hidden" name="keyId" value={keyId} />
             <input type="hidden" name="appId" value={appId} />
           </div>
-          <DialogFooter>
+          <DialogFooter className="mt-8">
             <Button
               type="button"
               variant="outline"
@@ -112,3 +103,4 @@ function EditAPIKeyButton({ name }: { name: string }) {
     </Button>
   );
 }
+

@@ -5,7 +5,7 @@ import Link from "next/link";
 import CreateApplication from "./_components/create-application";
 
 export default async function Home() {
-  const { userId } = await auth();
+  const { userId } = auth();
 
   if (!userId) {
     return <h1>Please sign in to view your applications</h1>;
@@ -24,7 +24,7 @@ export default async function Home() {
         {applications.map((app) => (
           <Link
             className="w-full h-full border border-gray-300 rounded-2xl"
-            href={`/d/${app.applicationId}`}
+            href={`/flow/${app.applicationId}`}
             key={app._id}
           >
             <h2>{app.name}</h2>

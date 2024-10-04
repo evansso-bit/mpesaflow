@@ -1,13 +1,7 @@
 "use client";
 
-import { createApplicationAction } from "@//actions/create-application";
+import { createApplicationAction } from "@//actions/application/create-application";
 import { Button } from "@mpesaflow/ui/button";
-import { Icons } from "@mpesaflow/ui/icons";
-import { Input } from "@mpesaflow/ui/input";
-import { Label } from "@mpesaflow/ui/label";
-import { useFormState } from "react-dom";
-import { useFormStatus } from "react-dom";
-
 import {
   Dialog,
   DialogContent,
@@ -17,18 +11,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@mpesaflow/ui/dialog";
-import { useState } from "react";
-
-const initialMessage = {
-  message: ""
-}
+import { Icons } from "@mpesaflow/ui/icons";
+import { Input } from "@mpesaflow/ui/input";
+import { Label } from "@mpesaflow/ui/label";
+import * as React from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { toast } from "sonner";
 
 export default function CreateApplication() {
-  const [state, formAction] = useFormState(createApplicationAction, initialMessage);
-  const [name, setName] = useState("");
+  const [state, formAction] = useFormState(createApplicationAction, undefined);
+  const [name, setName] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!state) {
+      return;
+    }
+
+    if ("message" in state) {
+      toast(state?.message);
+      setOpen(false);
+    } else if ("error" in state) {
+      toast(`Error creating application: ${state.error}`);
+      setOpen(false);
+    }
+  }, [state]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="justify-center font-medium items-center flex hover:cursor-pointer text-center w-full h-full bg-muted border border-dashed border-gray-200 rounded-xl text-sm">
           <div className="flex flex-row gap-2 items-center">

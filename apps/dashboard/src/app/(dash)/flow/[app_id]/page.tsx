@@ -11,7 +11,7 @@ export default async function AppPage({
   });
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 w-full">
       <h1>{app?.name}</h1>
     </div>
   );

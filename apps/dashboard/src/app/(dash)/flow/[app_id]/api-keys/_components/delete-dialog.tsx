@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteApiKeyAction } from "@//actions/delete-apiKey-action";
+import { deleteApiKeyAction } from "@//actions/apiKeys/delete-apiKey-action";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -12,46 +12,52 @@ import {
 } from "@mpesaflow/ui/alert-dialog";
 import { Button } from "@mpesaflow/ui/button";
 import { Icons } from "@mpesaflow/ui/icons";
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
-
-
-const initialMessage = {
-  message: "",
-};
 
 export default function DeleteApiKeyDialog({
   Id,
   appId,
-}: { Id: string; appId: string }) {
-  const [state, formAction] = useFormState(deleteApiKeyAction, initialMessage);
-  const [isOpen, setIsOpen] = useState(false);
+  isOpen,
+  setIsOpen,
+  closeDropdown,
+}: {
+  Id: string;
+  appId: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  closeDropdown: () => void;
+}) {
+  const [state, formAction] = useFormState(deleteApiKeyAction, undefined);
 
-  useEffect(() => {
-    if (state) {
+  React.useEffect(() => {
+    if (!state) return;
+
+    if ("error" in state) {
       setIsOpen(false);
-      setTimeout(() => {
-        if (state.error) {
-          toast.error(state.error);
-        } else {
-          toast.success("API key deleted successfully");
-        }
-      }, 300); // Delay to ensure dialog closes first
+      closeDropdown();
+      toast(`Error deleting API key: ${state.error}`);
+    } else if ("message" in state) {
+      setIsOpen(false);
+      closeDropdown();
+      toast(state.message);
     }
-  }, [state]);
+  }, [state, setIsOpen, closeDropdown]);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (!open) {
-      setIsOpen(false);
+      closeDropdown();
     }
   };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>
-        <Button className="w-fit">Delete API Key</Button>
+        <div className="flex flex-row items-center">
+        <Icons.delete  className="size-4 mr-2 text-red-500"/>Delete
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
@@ -64,8 +70,12 @@ export default function DeleteApiKeyDialog({
           <input type="hidden" name="_id" value={Id} />
           <input type="hidden" name="appId" value={appId} />
 
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <DeleteAPIKeyButton />
+          <div className="flex justify-end space-x-2 mt-4">
+            <AlertDialogCancel asChild>
+              <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+            </AlertDialogCancel>
+            <DeleteAPIKeyButton />
+          </div>
         </form>
       </AlertDialogContent>
     </AlertDialog>
@@ -79,12 +89,12 @@ function DeleteAPIKeyButton() {
     <Button variant="destructive" disabled={pending} type="submit">
       {pending ? (
         <>
-          <Icons.spinner className="animate-spin h-5 w-5 mr-2" />
+          <Icons.spinner className="animate-spin size-5 mr-2" />
           Deleting
         </>
       ) : (
         <>
-          <Icons.delete className="mr-2" />
+          <Icons.delete className="mr-2 size-4" />
           Delete
         </>
       )}
