@@ -2,24 +2,29 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "MpesaFlow",
   "logo": {
-    "dark": "/logo/light.svg",
-    "light": "/logo/dark.svg"
+    "dark": "/logo/favicon.svg",
+    "light": "/logo/favicon.svg"
   },
   "favicon": "/favicon.svg",
 
   "colors": {
-    "primary": "#34C759",
-    "light": "#FF3B30",
-    "dark": "#34C759",
+    "primary": "#22C45F",
+    "light": "#22C45F",
+    "dark": "#22C45F",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#22C45F",
+      "to": "#22C45F"
     }
+   
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:developers@mpesaflow.com"
+      "url": "mailto:support@mpesaflow.com"
+    },
+    {
+      "name": "github",
+      "url": "https://github.com/MpesaFlow"
     }
   ],
   "topbarCtaButton": {
@@ -36,17 +41,7 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://docs.mpesaflow.com"
     }
   ],
   "navigation": [
@@ -77,7 +72,8 @@
   "footerSocials": {
     "x": "https://x.com/MpesaFlow",
     "github": "https://github.com/MpesaFlow",
-    "linkedin": "https://www.linkedin.com/company/MpesaFlow"
+    "linkedin": "https://www.linkedin.com/company/MpesaFlow",
+    "discord": "https://discord.gg/MpesaFlow"
   },
   "analytics": {
     "posthog": {
