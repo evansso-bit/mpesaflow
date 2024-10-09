@@ -1,4 +1,4 @@
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@mpesaflow/ui/button";
 import Link from "next/link";
 
