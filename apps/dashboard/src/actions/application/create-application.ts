@@ -17,7 +17,7 @@ export async function createApplicationAction(
   const environment = "development";
 
   if (!userId) {
-    return { error: "User not found" };
+    return { error: "User not found, Please sign in to create an application" };
   }
 
   try {
@@ -28,8 +28,9 @@ export async function createApplicationAction(
       enviroment: environment,
     });
 
+    redirect(`/flow/${applicationId}`);    
     revalidatePath('/')
-    redirect(`/flow/${applicationId}`);
+    
     return { message: "Application created successfully" };
   } catch (error) {
     console.error("Error creating application:", error);

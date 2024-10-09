@@ -15,13 +15,19 @@ export default async function AppGrid() {
       <CreateApplication />
       {data?.map((app) => (
         <Link
-          className="w-full h-full border border-gray-300 rounded-2xl"
+          className="w-full h-full flex flex-col justify-between py-2 px-1 border border-gray-300 rounded-2xl"
           href={`/flow/${app.applicationId}`}
           key={app._id}
         >
-          <h2>{app.name}</h2>
+          <div >
+            <h2>{app.name}</h2>
+            <Link className="underline text-sm text-gray-500" href={`/flow/${app.applicationId}`} >
+              {app.enviroment}
+            </Link>
+          </div>
+
           <p
-            className={`${app.enviroment === "development" ? "bg-orange-200 text-orange-600" : "bg-green-200 text-green-700"} px-2 py-0.5 rounded-full w-fit`}
+            className={`${app.enviroment === "development" ? "bg-orange-200 text-orange-600" : "bg-green-200 text-green-700"} px-2 py-0.5 rounded-sm text-sm w-fit`}
           >
             {app.enviroment}
           </p>

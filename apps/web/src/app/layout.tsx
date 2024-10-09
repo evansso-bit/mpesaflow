@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import "@mpesaflow/ui/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { PHProvider } from "@mpesaflow/analytics";
+import { cn } from "@mpesaflow/ui/cn";
+import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import MainNav from "../components/main-nav";
+
 
 export const metadata: Metadata = {
   title: "MpesaFlow | Powering Payments for Developers",
@@ -45,7 +48,7 @@ export default function RootLayout({
             <meta name="msapplication-TileColor" content="#da532c" />
             <meta name="theme-color" content="#ffffff" />
           </head>
-          <body className="flex flex-col min-h-screen antialiased w-full bg-background text-foreground">
+          <body className={cn("flex flex-col min-h-screen antialiased w-full bg-background text-foreground font-inter", inter.variable, calSans.variable)}>
             <MainNav />
             <div>{children}</div>
           </body>

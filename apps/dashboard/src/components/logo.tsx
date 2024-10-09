@@ -5,13 +5,14 @@ import logo from "./logo.png";
 export default function Logo({ className }: { className?: string }) {
   return (
     <div className={cn(className)}>
-      <Image
-        src={logo}
-        alt="MpesaFlow Logo"
-        width={200}
-        height={100}
-        className="w-full h-full object-cover"
-      />
+      <h1 className="text-sm flex flex-col gap-0.5 items-left">
+        <span>
+          Mpesa
+        </span>
+        <span>
+          Flow
+        </span>
+      </h1>
     </div>
   );
 }
