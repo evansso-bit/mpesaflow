@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "biome lint .",
     "format": "biome format . --write",
-    "check": "biome check --apply ."
+    "check": "biome check --apply .",
+    "vercel-build": "if [ \"$SKIP_BIOME_CHECKS\" != \"true\" ]; then npm run lint && npm run type-check; fi && npm run build"
   },
   "dependencies": {
     "@upstash/redis": "^1.34.0"

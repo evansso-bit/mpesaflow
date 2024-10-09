@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --local",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "vercel-build": "if [ \"$SKIP_BIOME_CHECKS\" != \"true\" ]; then npm run lint && npm run type-check; fi && npm run build"
   },
   "dependencies": {
     "@microlabs/otel-cf-workers": "^1.0.0-rc.48",
