@@ -2,6 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { fetchMutation } from "convex/nextjs";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 
@@ -27,6 +28,7 @@ export async function createApplicationAction(
       enviroment: environment,
     });
 
+    revalidatePath('/')
     redirect(`/flow/${applicationId}`);
     return { message: "Application created successfully" };
   } catch (error) {

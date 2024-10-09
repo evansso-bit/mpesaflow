@@ -2,6 +2,8 @@
 
 
 import { convexMutation } from "@//config/CovexMutation";
+import { api } from "convex/_generated/api";
+import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
 
 type State = { error: string | null } | { message: string | null };
@@ -21,7 +23,7 @@ export async function updateApiKeyAction(prevState: any, formData: FormData) {
 
   try {
     const url = `${process.env.NEXT_PUBLIC_CONVEX_URL}`;
-    await convexMutation(url, "apiKeys:updateApiKey", {
+    await fetchMutation(api.apiActions.updateApiKey, {
       name: Name,
       keyId: keyId,
       _id: id,

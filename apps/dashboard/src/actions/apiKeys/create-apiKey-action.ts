@@ -1,7 +1,6 @@
 "use server";
 
 import { CreateUserIdentity } from "@//config/unkey/create-identity";
-import { verifyIdentity } from "@//config/unkey/verify-identity";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
