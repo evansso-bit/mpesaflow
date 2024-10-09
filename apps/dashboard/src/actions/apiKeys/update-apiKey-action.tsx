@@ -1,10 +1,9 @@
 "use server";
 
 
-import { convexMutation } from "@//config/CovexMutation";
-import { api } from "convex/_generated/api";
 import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
+import { api } from "../../../convex/_generated/api";
 
 type State = { error: string | null } | { message: string | null };
 
