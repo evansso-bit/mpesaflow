@@ -8,8 +8,9 @@ export default function Logo({ className }: { className?: string }) {
       <Image
         src={logo}
         alt="MpesaFlow Logo"
-        fill
-        className="w-full h-full"
+        width={200}
+        height={100}
+        className="w-full h-full object-cover"
       />
     </div>
   );
