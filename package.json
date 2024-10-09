@@ -2,8 +2,7 @@
   "name": "mpesaflow",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "vercel-build": "if [ \"$SKIP_BIOME_CHECKS\" != \"true\" ]; then npm run lint && npm run type-check; fi && npm run build",
+    "build": "if [ \"$SKIP_BIOME_CHECKS\" != \"true\" ]; then npm run lint && npm run type-check; fi && npm run build",
     "dev": "turbo dev",
     "format": "biome format . --write",
     "check": "biome check --apply .",
