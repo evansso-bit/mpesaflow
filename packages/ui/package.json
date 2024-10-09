@@ -34,11 +34,7 @@
     "./aspect-ratio": "./src/components/aspect-ratio.tsx"
   },
   "scripts": {
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "check": "biome check --apply .",
-    "generate:component": "turbo gen react-component",
-    "build": "if [ \"$SKIP_BIOME_CHECKS\" != \"true\" ]; then npm run lint && npm run type-check; fi && npm run build"
+    "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
     "@mpesaflow/typescript-config": "*",

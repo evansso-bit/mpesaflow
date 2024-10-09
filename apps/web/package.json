@@ -5,10 +5,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start",
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "check": "biome check --apply ."
+    "start": "next start"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.6.0",

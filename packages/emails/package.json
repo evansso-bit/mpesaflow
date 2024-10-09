@@ -4,9 +4,7 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "check": "biome check --apply ."
+
   },
   "exports": {
     "./welcome": "./src/emails/welcome.tsx"
