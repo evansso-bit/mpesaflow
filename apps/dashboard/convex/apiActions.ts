@@ -40,7 +40,7 @@ export const updateApiKey = mutation({
 	args: {
 		name: v.string(),
 		keyId: v.string(),
-		_id: v.optional(v.id("apiKeys")),
+		_id: v.optional(v.id("apiKeys"))
 	},
 	handler: async (ctx, args) => {
 		const { _id } = args;
@@ -55,16 +55,12 @@ export const updateApiKey = mutation({
 });
 
 export const deleteApiKey = mutation({
-	args: {
-		_id: v.optional(v.id("apiKeys")),
+	args:{
+		_id: v.optional(v.id("apiKeys"))
 	},
 	handler: async (ctx, args) => {
-		const { _id } = args;
-		if (!_id) {
-			return;
-		}
-		const id = ctx.db.delete(_id);
-		return id;
+		if(!args._id) return;
+		await ctx.db.delete(args._id);
 	},
 });
 

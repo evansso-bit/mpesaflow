@@ -23,7 +23,8 @@ export async function updateApiKeyAction(prevState: any, formData: FormData) {
     await fetchMutation(api.apiActions.updateApiKey, {
       name: Name,
       keyId: keyId,
-      _id: id,
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      _id: id as any
     });
 
     revalidatePath(`/flow/${appId}/api-keys`);
