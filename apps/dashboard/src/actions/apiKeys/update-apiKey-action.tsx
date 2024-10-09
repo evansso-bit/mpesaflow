@@ -1,8 +1,8 @@
 "use server";
 
-import { api } from "convex/_generated/api";
 import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
+import { api } from "../../../convex/_generated/api";
 
 type State = { error: string | null } | { message: string | null };
 
@@ -10,7 +10,7 @@ type State = { error: string | null } | { message: string | null };
 export async function updateApiKeyAction(prevState: any, formData: FormData) {
   const Name = formData.get("name") as string;
   const keyId = formData.get("keyId") as string;
-  const _id = formData.get("_id") as string;
+  const id = formData.get("_id") as string;
   const appId = formData.get("appId") as string;
 
   if (!keyId) {
@@ -23,7 +23,7 @@ export async function updateApiKeyAction(prevState: any, formData: FormData) {
     await fetchMutation(api.apiActions.updateApiKey, {
       name: Name,
       keyId: keyId,
-      _id: _id,
+      _id: id,
     });
 
     revalidatePath(`/flow/${appId}/api-keys`);

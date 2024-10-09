@@ -35,10 +35,10 @@ export default function CreateApiKey({
     }
     if ("message" in state) {
       setIsOpen(false);
-      toast(state.message);
+      toast.success(state.message);
       setName(""); // Reset the name after successful creation
     } else if ("error" in state) {
-      toast(`Error creating API key: ${state.error}`);
+      toast.error(`Error creating API key: ${state.error}`);
     }
   }, [state]);
 
@@ -48,6 +48,8 @@ export default function CreateApiKey({
       setName(""); // Reset the name when closing the dialog
     }
   };
+
+  console.log(`${applicationId} enviroment: ${enviroment}`);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -65,7 +67,7 @@ export default function CreateApiKey({
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <div className="mb-4">
+          <div className="mb-8">
             <Label htmlFor="apiName">API Name</Label>
             <Input
               id="apiName"
@@ -102,7 +104,7 @@ function CreateAPIKeyButton({ name }: { name: string }) {
     <Button disabled={pending || name.trim() === ""} type="submit">
       {pending ? (
         <>
-          <Icons.spinner className="animate-spin h-5 w-5 mr-2" />
+          <Icons.spinner className="animate-spin size-4 mr-2" />
           Creating
         </>
       ) : (

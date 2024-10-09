@@ -9,9 +9,11 @@
   "dependencies": {
     "@microlabs/otel-cf-workers": "^1.0.0-rc.48",
     "@unkey/hono": "^1.4.6",
+    "@upstash/qstash": "^2.7.12",
     "convex": "^1.16.2",
     "crypto": "^1.0.1",
     "hono": "^4.6.3",
+    "little-date": "^1.0.0",
     "wrangler": "^3.78.8"
   },
   "devDependencies": {

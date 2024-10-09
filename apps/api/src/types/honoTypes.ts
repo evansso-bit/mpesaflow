@@ -10,6 +10,8 @@ export type Binding = {
   ALLOWED_ORIGIN: string;
   BASELIME_API_KEY: string;
   SERVICE_NAME: string;
+  UPSTASH_WORKFLOW_URL: string;
+  ENVIRONMENT: string;
 };
 
 export interface MpesaData {

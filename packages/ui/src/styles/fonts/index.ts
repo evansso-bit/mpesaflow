@@ -1,8 +1,8 @@
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter } from "@next/font/google";
+import localFont from "@next/font/local";
 
 export const calSans = localFont({
-  src: "./fonts/CalSans-Regular.woff",
+  src: "./CalSans-SemiBold.ttf",
   variable: "--font-cal-sans",
   display: "swap",
 });

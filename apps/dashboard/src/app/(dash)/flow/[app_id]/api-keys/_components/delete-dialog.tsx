@@ -22,12 +22,14 @@ export default function DeleteApiKeyDialog({
   isOpen,
   setIsOpen,
   closeDropdown,
+  keyId,
 }: {
   Id: string;
   appId: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   closeDropdown: () => void;
+  keyId: string;
 }) {
   const [state, formAction] = useFormState(deleteApiKeyAction, undefined);
 
@@ -37,11 +39,11 @@ export default function DeleteApiKeyDialog({
     if ("error" in state) {
       setIsOpen(false);
       closeDropdown();
-      toast(`Error deleting API key: ${state.error}`);
+      toast.error(`Error deleting API key: ${state.error}`);
     } else if ("message" in state) {
       setIsOpen(false);
       closeDropdown();
-      toast(state.message);
+      toast.success(state.message);
     }
   }, [state, setIsOpen, closeDropdown]);
 
@@ -56,7 +58,8 @@ export default function DeleteApiKeyDialog({
     <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>
         <div className="flex flex-row items-center">
-        <Icons.delete  className="size-4 mr-2 text-red-500"/>Delete
+          <Icons.delete className="size-4 mr-2 text-red-500" />
+          Delete
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[425px]">
@@ -69,10 +72,13 @@ export default function DeleteApiKeyDialog({
         <form action={formAction}>
           <input type="hidden" name="_id" value={Id} />
           <input type="hidden" name="appId" value={appId} />
+          <input type="hidden" name="keyId" value={keyId} />
 
           <div className="flex justify-end space-x-2 mt-4">
             <AlertDialogCancel asChild>
-              <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
             </AlertDialogCancel>
             <DeleteAPIKeyButton />
           </div>
@@ -89,7 +95,7 @@ function DeleteAPIKeyButton() {
     <Button variant="destructive" disabled={pending} type="submit">
       {pending ? (
         <>
-          <Icons.spinner className="animate-spin size-5 mr-2" />
+          <Icons.spinner className="animate-spin size-4 mr-2" />
           Deleting
         </>
       ) : (

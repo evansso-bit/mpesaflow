@@ -1,3 +1,5 @@
+import { verifyKey } from "@unkey/api";
+
 const apiId = process.env.UNKEY_APP_ID;
 
 interface Verified {
@@ -10,29 +12,17 @@ interface Verified {
 }
 
 export async function verifyIdentity(key: string) {
-  const verifyKeyResponse = await fetch(
-    `https://api.unkey.dev/v1/keys.verifyKey`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        apiId: apiId,
-        key: key,
-      }),
-    },
-  );
+  const { result, error } = await verifyKey({
+    key: key,
+    apiId: apiId as string,
+  });
 
-  const verified = (await verifyKeyResponse.json()) as Verified;
-
-  if (verified.valid === false) {
+  if (error) {
     return {
-      error: "Invalid key",
-    };
-  } else {
-    return {
-      valid: true,
+      error: error,
     };
   }
+  return {
+    valid: result.valid,
+  };
 }

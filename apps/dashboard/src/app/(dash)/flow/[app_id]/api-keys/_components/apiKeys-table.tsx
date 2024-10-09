@@ -7,41 +7,39 @@ import {
   TableHeader,
   TableRow,
 } from "@mpesaflow/ui/table";
-import { api } from "convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
+import { api } from "../../../../../../../convex/_generated/api";
 import CreateApiKey from "./create-apiKey";
 import DropdownMenuComponent from "./dropdown-menu";
 
 export default async function ApiKeysTable({
-  applicationId,
   enviroment,
   userId,
   appId,
 }: {
-  applicationId: string;
   enviroment: string;
   userId: string;
   appId: string;
 }) {
   const data = await fetchQuery(api.apiActions.getApiKeys, {
-    applicationId: applicationId || "",
+    applicationId: appId || "",
     enviroment: enviroment || "",
     userId: userId || "",
   });
 
   return (
     <>
-      {data.length === 0 ? (
+      {data?.length === 0 ? (
         <div className=" flex flex-col gap-3 w-full h-fit text-center justify-center items-center border border-gray-600 rounded-2xl p-10">
           <h1 className="text-xl">You don't have any API keys yet</h1>
-          <p>Create an API key to access your application</p>
+          <p className="mb-4">Create an API key to access your application</p>
           <CreateApiKey
             enviroment={enviroment || ""}
-            applicationId={applicationId || ""}
+            applicationId={appId || ""}
           />
         </div>
       ) : (
-        <Table>
+        <Table className="rounded-md border">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
@@ -51,7 +49,7 @@ export default async function ApiKeysTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((key) => (
+            {data?.map((key) => (
               <TableRow key={key._id}>
                 <TableCell>{key.name}</TableCell>
                 <TableCell>
@@ -62,11 +60,10 @@ export default async function ApiKeysTable({
                 <TableCell>{key._creationTime}</TableCell>
                 <TableCell>
                   <DropdownMenuComponent
-                    appId={appId}
-                    key={key._id}
-                    applicationId={key._id}
+                    appId={key.applicationId}
+                    Id={key._id}
                     ApiName={key.name}
-                    keyId={key._id}
+                    keyId={key.keyId}
                   />
                 </TableCell>
               </TableRow>

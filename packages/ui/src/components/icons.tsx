@@ -1,8 +1,11 @@
 import {
   ArrowLeftRight,
+  ArrowUpDown,
   Code2,
   EllipsisVertical,
   LockIcon,
+  MessageSquareText,
+  MoreHorizontal,
   Plus,
   Settings,
   SquarePen,
@@ -12,6 +15,9 @@ import {
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  arrowUpDown: ArrowUpDown,
+  more: MoreHorizontal,
+  feedback: MessageSquareText,
   code: Code2,
   dropdown: EllipsisVertical,
   edit: SquarePen,
@@ -21,30 +27,36 @@ export const Icons = {
   settings: Settings,
   lock: LockIcon,
   logo: (props: IconProps) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" {...props}>
-      <rect width="256" height="256" fill="none" />
-      <line
-        x1="208"
-        y1="128"
-        x2="128"
-        y2="208"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="16"
-      />
-      <line
-        x1="192"
-        y1="40"
-        x2="40"
-        y2="192"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="16"
-      />
+    <svg width="721.171" height="409.001" xmlns="http://www.w3.org/2000/svg">
+      <text
+        style="line-height:1;-inkscape-font-specification:'Cal Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+        x="-939.634"
+        y="172.626"
+        font-weight="600"
+        font-size="238.763"
+        font-family="Cal Sans"
+        letter-spacing=".326"
+        fill="#22c55e"
+        stroke-width="1277.38"
+        stroke-linecap="round"
+        paint-order="stroke fill markers"
+        transform="translate(927.696 -5.492)"
+      >
+        <tspan
+          x="-939.634"
+          y="172.626"
+          style="-inkscape-font-specification:'Cal Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+        >
+          Mpesa
+        </tspan>
+        <tspan
+          x="-939.634"
+          y="411.389"
+          style="-inkscape-font-specification:'Cal Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+        >
+          Flow
+        </tspan>
+      </text>
     </svg>
   ),
   twitter: (props: IconProps) => (

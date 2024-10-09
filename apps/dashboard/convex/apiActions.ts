@@ -60,3 +60,33 @@ export const deleteApiKey = mutation({
     return await ctx.db.delete(args._id);
   },
 });
+
+export const getApiKeyDetails = query({
+  args: {
+    emailAdress: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("apiKeys")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("userId"), args.userId),
+          q.eq(q.field("applicationId"), args.applicationId),
+          q.eq(q.field("enviroment"), args.enviroment),
+        ),
+      )
+      .first();
+  },
+});
+
+export const getApiKey = query({
+  args: {
+    applicationId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("apiKeys")
+      .filter((q) => q.eq(q.field("apiKeys"), args.applicationId))
+      .first();
+  },
+});

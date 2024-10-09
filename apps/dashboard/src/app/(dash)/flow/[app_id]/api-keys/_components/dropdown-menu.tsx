@@ -10,17 +10,17 @@ import {
   DropdownMenuTrigger,
 } from "@mpesaflow/ui/dropdown-menu";
 import { Icons } from "@mpesaflow/ui/icons";
+import { useState } from "react";
 import DeleteApiKeyDialog from "./delete-dialog";
 import EditApiKeyDialog from "./edit-dialog";
-import { useState } from "react";
 
 export default function DropdownMenuComponent({
-  applicationId,
+  Id,
   keyId,
   ApiName,
   appId,
 }: {
-  applicationId: string;
+  Id: string;
   keyId: string;
   ApiName: string;
   appId: string;
@@ -41,7 +41,7 @@ export default function DropdownMenuComponent({
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <EditApiKeyDialog
-              Id={applicationId}
+              Id={Id}
               keyId={keyId}
               apiName={ApiName}
               appId={appId}
@@ -50,13 +50,17 @@ export default function DropdownMenuComponent({
               closeDropdown={() => setIsDropdownOpen(false)}
             />
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-red-500">
+          <DropdownMenuItem
+            onSelect={(e) => e.preventDefault()}
+            className="text-red-500"
+          >
             <DeleteApiKeyDialog
-              Id={applicationId}
+              Id={Id}
               appId={appId}
               isOpen={isDeleteDialogOpen}
               setIsOpen={setIsDeleteDialogOpen}
               closeDropdown={() => setIsDropdownOpen(false)}
+              keyId={keyId}
             />
           </DropdownMenuItem>
         </DropdownMenuGroup>

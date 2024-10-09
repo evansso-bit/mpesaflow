@@ -3,7 +3,7 @@ import { mutation, query } from "./_generated/server.js";
 
 export const create = mutation({
   args: {
-    userId: v.string(),
+    KeyId: v.string(),
     transactionId: v.string(),
     amount: v.number(),
     phoneNumber: v.string(),
@@ -11,6 +11,8 @@ export const create = mutation({
     transactionDesc: v.string(),
     mpesaRequestId: v.string(),
     status: v.string(),
+    resultDesc: v.string(),
+    date_created: v.string(),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("transactions", args);
@@ -43,7 +45,7 @@ export const updateStatus = mutation({
 export const getStatus = query({
   args: {
     transactionId: v.string(),
-    userId: v.string(),
+    KeyId: v.string(),
   },
   handler: async (ctx, args) => {
     const transaction = await ctx.db
@@ -51,7 +53,7 @@ export const getStatus = query({
       .filter((q) =>
         q.and(
           q.eq(q.field("transactionId"), args.transactionId),
-          q.eq(q.field("userId"), args.userId),
+          q.eq(q.field("KeyId"), args.KeyId),
         ),
       )
       .first();
@@ -69,6 +71,32 @@ export const getStatus = query({
       accountReference: transaction.accountReference,
       transactionDesc: transaction.transactionDesc,
       mpesaRequestId: transaction.mpesaRequestId,
+    };
+  },
+});
+
+export const getTransactions = query({
+  args: {
+    KeyId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const transactions = await ctx.db
+      .query("transactions")
+      .filter((q) => q.eq(q.field("KeyId"), args.KeyId))
+      .collect();
+
+    return {
+      transactions: transactions.map((transaction) => ({
+        transactionId: transaction.transactionId,
+        status: transaction.status,
+        resultDesc: transaction.resultDesc,
+        amount: transaction.amount,
+        phoneNumber: transaction.phoneNumber,
+        accountReference: transaction.accountReference,
+        transactionDesc: transaction.transactionDesc,
+        mpesaRequestId: transaction.mpesaRequestId,
+        date_created: transaction.date_created,
+      })),
     };
   },
 });

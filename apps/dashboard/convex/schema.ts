@@ -18,4 +18,17 @@ export default defineSchema({
     applicationId: v.string(),
     enviroment: v.string(),
   }),
+
+  transactions: defineTable({
+    KeyId: v.string(),
+    transactionId: v.string(),
+    amount: v.number(),
+    phoneNumber: v.string(),
+    accountReference: v.string(),
+    transactionDesc: v.string(),
+    mpesaRequestId: v.string(),
+    status: v.string(),
+    resultDesc: v.string(),
+    date_created: v.string(),
+  }),
 });

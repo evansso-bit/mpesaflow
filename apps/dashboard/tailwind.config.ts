@@ -7,10 +7,6 @@ export default {
   presets: [baseConfig],
   theme: {
     extend: {
-      fontFamily: {
-        inter: ["var(--font-inter)"],
-        cal: ["var(--font-cal-sans)"],
-      },
       animation: {
         marquee: "marquee 25s linear infinite",
         marquee2: "marquee2 25s linear infinite",

@@ -23,29 +23,48 @@ export default function EditApiKeyDialog({
   keyId,
   apiName,
   appId,
-}: { Id: string; keyId: string; apiName: string; appId: string }) {
+  isOpen,
+  setIsOpen,
+  closeDropdown,
+}: {
+  Id: string;
+  keyId: string;
+  apiName: string;
+  appId: string;
+  closeDropdown: () => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}) {
   const [state, formAction] = useFormState(updateApiKeyAction, undefined);
   const [name, setName] = React.useState(apiName);
-  const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (!state) {
-      return;
-    }
-    if ("message" in state) {
+    if (!state) return;
+
+    if ("error" in state) {
       setIsOpen(false);
-      toast(state.message);
-    } else if ("error" in state) {
+      closeDropdown();
+      toast.error(`Error deleting API key: ${state.error}`);
+    } else if ("message" in state) {
       setIsOpen(false);
-      toast(`Error updating API key: ${state}`);
+      closeDropdown();
+      toast.success(state.message);
     }
-  }, [state]);
+  }, [state, setIsOpen, closeDropdown]);
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      closeDropdown();
+    }
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <div className="flex flex-row items-center">
-        <Icons.edit  className="size-4 mr-2"/>Edit
+          <Icons.edit className="size-4 mr-2" />
+          Edit
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -56,7 +75,7 @@ export default function EditApiKeyDialog({
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <div >
+          <div>
             <Label htmlFor="apiName">API Name</Label>
             <Input
               id="apiName"
@@ -94,7 +113,7 @@ function EditAPIKeyButton({ name }: { name: string }) {
     <Button disabled={pending || name === ""} type="submit">
       {pending ? (
         <>
-          <Icons.spinner className="animate-spin h-5 w-5 mr-2" />
+          <Icons.spinner className="animate-spin size-4 mr-2" />
           Saving
         </>
       ) : (
@@ -103,4 +122,3 @@ function EditAPIKeyButton({ name }: { name: string }) {
     </Button>
   );
 }
-

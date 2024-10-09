@@ -17,6 +17,7 @@ import type {
 } from "convex/server";
 import type * as apiActions from "../apiActions.js";
 import type * as appActions from "../appActions.js";
+import type * as transactions from "../transactions.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,6 +30,7 @@ import type * as appActions from "../appActions.js";
 declare const fullApi: ApiFromModules<{
   apiActions: typeof apiActions;
   appActions: typeof appActions;
+  transactions: typeof transactions;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
