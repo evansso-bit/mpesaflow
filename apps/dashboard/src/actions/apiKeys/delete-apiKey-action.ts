@@ -1,9 +1,8 @@
 "use server";
 
+import { convexMutation } from "@//config/CovexMutation";
 import { unkey } from "@//lib/unkey";
-import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
-import { api } from "../../../convex/_generated/api";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function deleteApiKeyAction(prevState: any, formData: FormData) {
@@ -18,11 +17,12 @@ export async function deleteApiKeyAction(prevState: any, formData: FormData) {
   }
 
   try {
-    await fetchMutation(api.apiActions.deleteApiKey, {
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      _id: id as any
-    });
 
+    const url = `${process.env.NEXT_PUBLIC_CONVEX_URL}`;
+   
+ await convexMutation(url, "apiKeys:deleteApiKey", {
+    _id: id,
+ })
     await unkey.keys.delete({ keyId: keyId });
 
     revalidatePath(`/flow/${appId}/api-keys`);

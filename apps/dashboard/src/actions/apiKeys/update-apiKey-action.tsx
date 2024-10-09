@@ -1,8 +1,8 @@
 "use server";
 
-import { fetchMutation } from "convex/nextjs";
+
+import { convexMutation } from "@//config/CovexMutation";
 import { revalidatePath } from "next/cache";
-import { api } from "../../../convex/_generated/api";
 
 type State = { error: string | null } | { message: string | null };
 
@@ -20,11 +20,11 @@ export async function updateApiKeyAction(prevState: any, formData: FormData) {
   }
 
   try {
-    await fetchMutation(api.apiActions.updateApiKey, {
+    const url = `${process.env.NEXT_PUBLIC_CONVEX_URL}`;
+    await convexMutation(url, "apiKeys:updateApiKey", {
       name: Name,
       keyId: keyId,
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      _id: id as any
+      _id: id,
     });
 
     revalidatePath(`/flow/${appId}/api-keys`);
