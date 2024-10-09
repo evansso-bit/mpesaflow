@@ -18,7 +18,7 @@ export default function MainNav() {
     <nav className={cn("border-b border-gray-200 w-full")}>
       <div className="flex flex-row justify-between w-full max-w-7xl mx-auto items-center px-4 py-2">
         <Link href="/">
-          <Logo className="size-5" />
+          <Logo className="size-6" />
         </Link>
         <SignedIn>
           <UserButton />

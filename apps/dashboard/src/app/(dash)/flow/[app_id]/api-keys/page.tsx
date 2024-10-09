@@ -3,11 +3,11 @@ import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
 import { Icons } from "@mpesaflow/ui/icons";
 import { Skeleton } from "@mpesaflow/ui/skeleton";
-import { api } from "convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { api } from "../../../../../../convex/_generated/api";
 import ApiKeysTable from "./_components/apiKeys-table";
 import CreateApiKey from "./_components/create-apiKey";
 
