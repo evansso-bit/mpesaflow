@@ -15,9 +15,6 @@
         "NEXT_PUBLIC_POSTHOG_KEY"
       ]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
     "dev": {
       "cache": false,
       "persistent": true

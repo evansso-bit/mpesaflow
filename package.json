@@ -4,7 +4,6 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "biome lint .",
     "format": "biome format . --write",
     "check": "biome check --apply .",
     "dev:dash": "turbo dev --filter=@mpesaflow/dashboard",
