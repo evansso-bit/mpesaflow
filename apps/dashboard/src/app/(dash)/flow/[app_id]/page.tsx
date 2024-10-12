@@ -2,7 +2,6 @@ import { auth } from "@clerk/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import { api } from "../../../../../convex/_generated/api";
-import { useCurrentEnvironment } from "./_components/enviroment-switch";
 import DataChart from "./_components/payments/chart/data-chart";
 import DataTable from "./_components/payments/table/data-table";
 
@@ -15,7 +14,7 @@ export default async function AppPage({
 }: {
   params: { app_id: string };
 }) {
-  const { enviroment } = useCurrentEnvironment();
+  const enviroment = "development";
   console.log(enviroment);
   const { userId } = auth();
   const getApiKeys = await fetchQuery(api.apiActions.getApiKeys, {
