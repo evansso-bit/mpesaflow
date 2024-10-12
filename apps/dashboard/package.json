@@ -8,6 +8,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@clerk/elements": "^0.15.10",
     "@clerk/nextjs": "^5.7.1",
     "@mpesaflow/analytics": "workspace:*",
     "@mpesaflow/email": "workspace:*",

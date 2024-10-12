@@ -23,7 +23,8 @@ export async function deleteApiKeyAction(prevState: any, formData: FormData) {
     const url = `${process.env.NEXT_PUBLIC_CONVEX_URL}`;
    
     await fetchMutation(api.apiActions.deleteApiKey, {
-      _id: id,
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      id: id as any,
     });
     await unkey.keys.delete({ keyId: keyId });
 

@@ -1,39 +1,38 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
 import { fetchMutation } from "convex/nextjs";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 
 export async function createApplicationAction(
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  prevState: any,
-  formData: FormData,
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	prevState: any,
+	formData: FormData
 ) {
-  const Name = formData.get("name") as string;
-  const { userId } = auth();
-  const applicationId = crypto.randomUUID();
-  const environment = "development";
+	const applicationId = crypto.randomUUID();
 
-  if (!userId) {
-    return { error: "User not found, Please sign in to create an application" };
-  }
+	try {
+		const Name = formData.get("name") as string;
+		const environment = formData.get("enviroment") as string;
+		const consumerKey = formData.get("consumerKey") as string;
+		const consumerSecret = formData.get("consumerSecret") as string;
+		const passKey = formData.get("passKey") as string;
 
-  try {
-    await fetchMutation(api.appActions.createApplication, {
-      userId,
-      name: Name,
-      applicationId,
-      enviroment: environment,
-    });
+		await fetchMutation(api.appActions.createApplication, {
+			name: Name,
+			applicationId: applicationId,
+			environments: [environment],
+			ConsumerKey: consumerKey || "",
+			ConsumerSecret: consumerSecret || "",
+			passKey: passKey || "",
+		});
 
-    redirect(`/flow/${applicationId}`);    
-    revalidatePath('/')
-    
-    return { message: "Application created successfully" };
-  } catch (error) {
-    console.error("Error creating application:", error);
-    return { error: "Failed to create application" };
-  }
+		return {
+			message: "Application created successfully",
+			applicationId,
+		};
+	} catch (error) {
+		return {
+			error: "Failed to create application",
+		};
+	}
 }

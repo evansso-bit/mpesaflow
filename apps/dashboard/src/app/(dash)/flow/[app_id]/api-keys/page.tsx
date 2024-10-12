@@ -1,12 +1,10 @@
-import { auth } from "@clerk/nextjs/server";
+
 import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
 import { Icons } from "@mpesaflow/ui/icons";
-import { Skeleton } from "@mpesaflow/ui/skeleton";
 import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { api } from "../../../../../../convex/_generated/api";
 import ApiKeysTable from "./_components/apiKeys-table";
 import CreateApiKey from "./_components/create-apiKey";
@@ -21,8 +19,6 @@ export default async function AppPage({
   params: { app_id: string };
 }) {
   const { app_id } = params;
-  console.log(app_id);
-  const { userId } = auth();
 
   const app = await fetchQuery(api.appActions.getApplicationData, {
     applicationId: app_id,
@@ -30,8 +26,7 @@ export default async function AppPage({
 
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: app_id || "",
-    enviroment: app?.enviroment || "",
-    userId: userId || "",
+    enviroment: app?.enviroment || [],
   });
 
   return (
@@ -43,7 +38,7 @@ export default async function AppPage({
           className={cn("flex flex-row gap-7", data.length === 0 && "hidden")}
         >
           <CreateApiKey
-            enviroment={app?.enviroment || ""}
+            enviroment={app?.enviroment.includes("development") ? ["development"] : ["production"]}
             applicationId={params.app_id}
           />
 
@@ -56,13 +51,10 @@ export default async function AppPage({
         </div>
       </div>
 
-      <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
-        <ApiKeysTable
-          appId={params.app_id}
-          enviroment={app?.enviroment || ""}
-          userId={userId || ""}
-        />
-      </Suspense>
+      <ApiKeysTable
+        appId={params.app_id}
+        enviroment={app?.enviroment || []}
+      />
     </div>
   );
 }

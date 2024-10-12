@@ -14,17 +14,14 @@ import DropdownMenuComponent from "./dropdown-menu";
 
 export default async function ApiKeysTable({
   enviroment,
-  userId,
   appId,
 }: {
-  enviroment: string;
-  userId: string;
+  enviroment: string[];
   appId: string;
 }) {
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: appId || "",
-    enviroment: enviroment || "",
-    userId: userId || "",
+    enviroment: enviroment,
   });
 
   return (
@@ -34,7 +31,7 @@ export default async function ApiKeysTable({
           <h1 className="text-xl">You don't have any API keys yet</h1>
           <p className="mb-4">Create an API key to access your application</p>
           <CreateApiKey
-            enviroment={enviroment || ""}
+            enviroment={enviroment}
             applicationId={appId || ""}
           />
         </div>

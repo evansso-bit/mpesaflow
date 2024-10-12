@@ -2,8 +2,8 @@
 
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
-import Link from "next/link";
 import { Button } from "@mpesaflow/ui/button";
+import Link from "next/link";
 
 import {
   Card,
@@ -15,8 +15,8 @@ import {
 } from "@mpesaflow/ui/card";
 import { Input } from "@mpesaflow/ui/input";
 
-import { Label } from "@mpesaflow/ui/label";
 import { Icons } from "@mpesaflow/ui/icons";
+import { Label } from "@mpesaflow/ui/label";
 
 export default function SignInPage() {
   return (
@@ -28,7 +28,7 @@ export default function SignInPage() {
               <SignIn.Step name="start">
                 <Card className="w-full sm:w-96">
                   <CardHeader>
-                    <CardTitle>Sign in to Acme Co</CardTitle>
+                    <CardTitle>Sign in to MpesaFlow</CardTitle>
                     <CardDescription>
                       Welcome back! Please sign in to continue
                     </CardDescription>

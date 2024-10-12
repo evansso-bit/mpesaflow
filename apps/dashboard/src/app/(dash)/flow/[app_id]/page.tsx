@@ -14,10 +14,13 @@ export default async function AppPage({
   params: { app_id: string };
 }) {
   const { app_id } = params;
-  const getApiKey = await fetchQuery(api.apiActions.getApiKey, {
+  const getApiKeys = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: params.app_id,
+    enviroment: ["production", "sandbox"],
   });
-  const keyId = getApiKey?.keyId;
+
+  const keyId = getApiKeys?.[0]?.keyId;
+
 
   return (
     <div className="flex flex-col gap-5 w-full">

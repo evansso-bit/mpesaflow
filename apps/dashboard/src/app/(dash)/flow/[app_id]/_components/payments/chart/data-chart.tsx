@@ -25,16 +25,12 @@ import {
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const transactionData = [
-  { date: "2024-03-06", amount: 1000, status: "failed" },
-  { date: "2024-03-06", amount: 1, status: "failed" },
-  { date: "2024-03-06", amount: 1, status: "failed" },
-  { date: "2024-03-06", amount: 1000, status: "failed" },
-  { date: "2024-03-06", amount: 1000, status: "failed" },
-  { date: "2024-03-06", amount: 1000, status: "failed" },
-  { date: "2024-03-05", amount: 1, status: "failed" },
-  { date: "2024-03-05", amount: 1, status: "failed" },
-  { date: "2024-03-04", amount: 1, status: "failed" },
-  { date: "2024-03-03", amount: 1, status: "failed" },
+  { date: "2024-03-03", totalAmount: 650, status: "failed" },
+  { date: "2024-03-04", totalAmount: 1000, status: "failed" },
+  { date: "2024-03-05", totalAmount: 350, status: "failed" },
+  { date: "2024-03-06", totalAmount: 1800, status: "failed" },
+  { date: "2024-03-07", totalAmount: 900, status: "failed" },
+  { date: "2024-03-08", totalAmount: 450, status: "failed" },
 ];
 
 const chartConfig = {

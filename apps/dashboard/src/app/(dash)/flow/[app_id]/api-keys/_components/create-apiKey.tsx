@@ -23,7 +23,7 @@ export default function CreateApiKey({
   enviroment,
 }: {
   applicationId: string;
-  enviroment: string;
+  enviroment: string[];
 }) {
   const [state, formAction] = useFormState(createApiKeyAction, undefined);
   const [isOpen, setIsOpen] = React.useState(false);

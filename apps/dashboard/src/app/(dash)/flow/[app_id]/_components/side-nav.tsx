@@ -23,6 +23,10 @@ export default function SideNav() {
   const pathname = usePathname();
   const params = useParams();
 
+  if (pathname === '/flow/new' || pathname === '/') {
+    return null
+  }
+
   return (
     <nav
       className={cn(

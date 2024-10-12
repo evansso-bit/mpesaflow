@@ -17,6 +17,7 @@ import type {
 } from "convex/server";
 import type * as apiActions from "../apiActions.js";
 import type * as appActions from "../appActions.js";
+import type * as enviroments from "../enviroments.js";
 import type * as transactions from "../transactions.js";
 
 /**
@@ -30,6 +31,7 @@ import type * as transactions from "../transactions.js";
 declare const fullApi: ApiFromModules<{
   apiActions: typeof apiActions;
   appActions: typeof appActions;
+  enviroments: typeof enviroments;
   transactions: typeof transactions;
 }>;
 export declare const api: FilterApi<

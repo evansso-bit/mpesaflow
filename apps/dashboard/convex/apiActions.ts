@@ -4,30 +4,44 @@ import { mutation, query } from "./_generated/server";
 export const createApiKey = mutation({
 	args: {
 		key: v.string(),
-		userId: v.string(),
 		name: v.string(),
 		emailAdress: v.string(),
 		keyId: v.string(),
 		applicationId: v.string(),
-		enviroment: v.string(),
+		enviroment: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
-		return await ctx.db.insert("apiKeys", args);
+		const user = await ctx.auth.getUserIdentity();
+		if (!user) {
+			return [];
+		}
+		return await ctx.db.insert("apiKeys", {
+			userId: user.subject,
+			name: args.name,
+			emailAdress: args.emailAdress,
+			key: args.key,
+			keyId: args.keyId,
+			applicationId: args.applicationId,
+			enviroment: args.enviroment,
+		});
 	},
 });
 
 export const getApiKeys = query({
 	args: {
-		userId: v.string(),
 		applicationId: v.string(),
-		enviroment: v.string(), // Note: Fixed typo in 'environment'
+		enviroment: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
+		const user = await ctx.auth.getUserIdentity();
+		if (!user) {
+			return [];
+		}
 		return await ctx.db
 			.query("apiKeys")
 			.filter((q) =>
 				q.and(
-					q.eq(q.field("userId"), args.userId),
+					q.eq(q.field("userId"), user.subject),
 					q.eq(q.field("applicationId"), args.applicationId),
 					q.eq(q.field("enviroment"), args.enviroment)
 				)
@@ -40,14 +54,10 @@ export const updateApiKey = mutation({
 	args: {
 		name: v.string(),
 		keyId: v.string(),
-		_id: v.string(),
+		id: v.id("apiKeys"),
 	},
 	handler: async (ctx, args) => {
-		const { _id } = args;
-		if (!_id) {
-			return;
-		}
-		return await ctx.db.patch(_id, {
+		return await ctx.db.patch(args.id, {
 			name: args.name,
 			keyId: args.keyId,
 		});
@@ -55,27 +65,27 @@ export const updateApiKey = mutation({
 });
 
 export const deleteApiKey = mutation({
-	args:{
-		_id: v.string()
-	},
+	args: { id: v.id("apiKeys") },
 	handler: async (ctx, args) => {
-		if(!args._id) return;
-		await ctx.db.delete(args._id);
+		await ctx.db.delete(args.id);
 	},
 });
 
 export const getApiKeyDetails = query({
 	args: {
-		userId: v.string(),
 		applicationId: v.string(),
-		enviroment: v.string(),
+		enviroment: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
+		const user = await ctx.auth.getUserIdentity();
+		if (!user) {
+			return;
+		}
 		return await ctx.db
 			.query("apiKeys")
 			.filter((q) =>
 				q.and(
-					q.eq(q.field("userId"), args.userId),
+					q.eq(q.field("userId"), user.subject),
 					q.eq(q.field("applicationId"), args.applicationId),
 					q.eq(q.field("enviroment"), args.enviroment)
 				)
