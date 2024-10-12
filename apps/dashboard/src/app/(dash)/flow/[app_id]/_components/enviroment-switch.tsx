@@ -9,9 +9,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@mpesaflow/ui/select"
-import { api } from "convex/_generated/api"
 import { useMutation, useQuery } from "convex/react"
 import { useEffect, useState } from "react"
+import { api } from "../../../../../../convex/_generated/api"
 import RegisterModal from "./register-modal"
 
 export function EnvironmentSelect({ appId }: { appId: string }) {

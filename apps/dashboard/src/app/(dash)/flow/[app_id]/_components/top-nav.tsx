@@ -1,6 +1,6 @@
 "use client";
 
-import Logo from "@//components/logo";
+
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
