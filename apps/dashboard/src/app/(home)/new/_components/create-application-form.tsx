@@ -22,7 +22,7 @@ import { toast } from "sonner";
 export function CreateApplicationForm() {
     const [state, formAction] = useFormState(createApplicationAction, undefined);
     const [name, setName] = useState("");
-    const [environment, setEnvironment] = useState<string>("development");
+    const [environment, setEnvironment] = useState("development");
     const [consumerKey, setConsumerKey] = useState("");
     const [consumerSecret, setConsumerSecret] = useState("");
     const [passKey, setPassKey] = useState("");
@@ -37,9 +37,16 @@ export function CreateApplicationForm() {
         }
     }, [state, router]);
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        formData.set('environment', environment);
+        formAction(formData);
+    };
+
     return (
         <div>
-            <form action={formAction}>
+            <form onSubmit={handleSubmit}>
                 <div className="flex flex-row gap-3 items-center">
                     <div className="flex flex-col gap-2 mb-4">
                         <Label>Application Name</Label>
@@ -52,10 +59,9 @@ export function CreateApplicationForm() {
                             required
                             className="w-9/12"
                         />
-                        <input type="hidden" name="environment" value={environment} />
                     </div>
 
-                    <Select value={environment} defaultValue="development" onValueChange={(value) => setEnvironment(value)}>
+                    <Select value={environment} onValueChange={setEnvironment}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select an environment" />
                         </SelectTrigger>
@@ -113,7 +119,7 @@ export function CreateApplicationForm() {
     )
 }
 
-function SubmitButton({ name, environment, consumerKey, consumerSecret, passKey }: { name: string, environment: string, consumerKey: string, consumerSecret: string, passKey: string }) {
+function SubmitButton({ name, environment, consumerKey, consumerSecret, passKey }) {
     const { pending } = useFormStatus();
 
     const isDisabled = pending || name.trim() === "" || (environment === "production" && (consumerKey.trim() === "" || consumerSecret.trim() === "" || passKey.trim() === ""));

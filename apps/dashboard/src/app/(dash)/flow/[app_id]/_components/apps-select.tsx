@@ -4,7 +4,6 @@ import { useAuth } from "@clerk/nextjs"
 import { Icons } from "@mpesaflow/ui/icons"
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from "@mpesaflow/ui/select"
 import { useQuery } from "convex/react"
-import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { api } from "../../../../../../convex/_generated/api"
 
@@ -24,12 +23,18 @@ export default function AppsSelect() {
     if (value === "new") {
       router.push("/flow/new")
     } else {
-      router.push(`/flow/${value}`)
+      const selectedApp = apps.find(app => app.name === value)
+      if (selectedApp) {
+        router.push(`/flow/${selectedApp._id}`)
+      }
     }
   }
 
   return (
-    <Select value={params.app_id} onValueChange={handleValueChange}>
+    <Select 
+      value={selectedApp ? selectedApp.name : undefined} 
+      onValueChange={handleValueChange}
+    >
       <SelectTrigger>
         <SelectValue placeholder="Select an app">
           {selectedApp ? selectedApp.name : "Select an app"}
@@ -37,7 +42,7 @@ export default function AppsSelect() {
       </SelectTrigger>
       <SelectContent>
         {apps.map((app) => (
-          <SelectItem key={app._id} value={app._id}>
+          <SelectItem key={app._id} value={app.name}>
             {app.name}
           </SelectItem>
         ))}
