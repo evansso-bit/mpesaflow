@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
 import { fetchMutation } from "convex/nextjs";
 import { api } from "../../../convex/_generated/api";
 
@@ -9,6 +10,7 @@ export async function createApplicationAction(
 	formData: FormData
 ) {
 	const applicationId = crypto.randomUUID();
+	const { userId } = auth()
 
 	try {
 		const Name = formData.get("name") as string;
@@ -24,6 +26,7 @@ export async function createApplicationAction(
 			ConsumerKey: consumerKey || "",
 			ConsumerSecret: consumerSecret || "",
 			passKey: passKey || "",
+			userId: userId || "",
 		});
 
 		return {

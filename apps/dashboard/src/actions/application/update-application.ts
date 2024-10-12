@@ -12,20 +12,19 @@ export async function updateApplicationAction(prevState: any, formData: FormData
     const consumerSecret = formData.get("consumerSecret") as string;
     const passKey = formData.get("passKey") as string;
     const enviroments = formData.get("enviroment") as string;
+    const { userId } = auth();
 
     const appData = await fetchQuery(api.appActions.getApplicationData, {
         applicationId: appId,
+        userId: userId || "",
     });
 
-    const { userId } = auth();
 
     if (!userId) {
         return { error: "User not found, Please sign in to create an application" };
     }
 
-    const enviromentsData = await fetchQuery(api.enviroments.getEnviroments, {
-        applicationId: appId,
-    });
+  
 
     if (!appData) {
         return {
@@ -38,12 +37,8 @@ export async function updateApplicationAction(prevState: any, formData: FormData
         ConsumerKey: consumerKey,
         ConsumerSecret: consumerSecret,
         passKey: passKey,
-        enviroment: enviroments,
+       environments: [enviroments] as string[],
     });
 
-    await fetchMutation(api.enviroments.updateEnviroment, {
-        id: enviromentsData._id,
-        applicationId: appId,
-        enviroments: enviroments,
-    })
+    return { message: "Application updated successfully" };
 }

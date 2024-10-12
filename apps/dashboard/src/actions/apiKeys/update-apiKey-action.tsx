@@ -25,7 +25,7 @@ export async function updateApiKeyAction(prevState: any, formData: FormData) {
     await fetchMutation(api.apiActions.updateApiKey, {
       name: Name,
       keyId: keyId,
-      _id: id,
+      id: id as string,
     });
 
     revalidatePath(`/flow/${appId}/api-keys`);

@@ -1,7 +1,7 @@
 "use server";
 
 import { CreateUserIdentity } from "@//config/unkey/create-identity";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { fetchMutation } from "convex/nextjs";
 import { revalidatePath } from "next/cache";
 import { api } from "../../../convex/_generated/api";
@@ -14,6 +14,7 @@ export async function createApiKeyAction(prevState: any, formData: FormData) {
 	const environment = formData.get("enviroment") as string;
 
 	const user = await currentUser();
+	const { userId } = auth()
 
 	const { key, KeyId } = await CreateUserIdentity({
 		enviroment: environment,
@@ -29,6 +30,7 @@ export async function createApiKeyAction(prevState: any, formData: FormData) {
 			keyId: KeyId as string,
 			applicationId: applicationId,
 			enviroment: [environment],
+			userId: userId || "",
 		});
 		revalidatePath(`/flow/${applicationId}/api-keys`);
 		return { message: "API key created successfully" };

@@ -10,17 +10,13 @@ export const createApplication = mutation({
 		applicationId: v.string(),
 		ConsumerKey: v.optional(v.string()),
 		ConsumerSecret: v.optional(v.string()),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			return [];
-		}
-		const applicationId = crypto.randomUUID(); // Generate applicationId on the server
+		
 
 		await ctx.db.insert("applications", {
 			...args,
-			userId: user.subject,
 			currentEnvironment: args.environments[0] || "development",
 			enviroment: args.environments,
 		});
@@ -43,15 +39,14 @@ export const updateApplication = mutation({
 });
 
 export const getApplications = query({
-	args: {},
-	handler: async (ctx) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			return [];
-		}
+	args: {
+		userId: v.string(),
+	},
+	handler: async (ctx, args) => {
+	
 		return await ctx.db
 			.query("applications")
-			.filter((q) => q.eq(q.field("userId"), user.subject))
+			.filter((q) => q.eq(q.field("userId"), args.userId))
 			.collect();
 	},
 });
@@ -59,18 +54,16 @@ export const getApplications = query({
 export const getApplicationData = query({
 	args: {
 		applicationId: v.string(),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			return null;
-		}
+		
 		return await ctx.db
 			.query("applications")
 			.filter((q) =>
 				q.and(
 					q.eq(q.field("applicationId"), args.applicationId),
-					q.eq(q.field("userId"), user.subject)
+					q.eq(q.field("userId"), args.userId)
 				)
 			)
 			.first();
@@ -88,19 +81,17 @@ export const saveCurrentEnvironment = mutation({
 	args: {
 		applicationId: v.string(),
 		currentEnvironment: v.string(),
+		userId: v.string()
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			throw new Error("Not authenticated");
-		}
+	
 
 		const existingApp = await ctx.db
 			.query("applications")
 			.filter((q) =>
 				q.and(
 					q.eq(q.field("applicationId"), args.applicationId),
-					q.eq(q.field("userId"), user.subject)
+					q.eq(q.field("userId"), args.userId)
 				)
 			)
 			.first();
@@ -122,19 +113,16 @@ export const saveCurrentEnvironment = mutation({
 export const getCurrentEnvironment = query({
 	args: {
 		applicationId: v.string(),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			return null;
-		}
-
+		
 		const app = await ctx.db
 			.query("applications")
 			.filter((q) =>
 				q.and(
 					q.eq(q.field("applicationId"), args.applicationId),
-					q.eq(q.field("userId"), user.subject)
+					q.eq(q.field("userId"), args.userId)
 				)
 			)
 			.first();
@@ -147,19 +135,17 @@ export const addEnvironment = mutation({
 	args: {
 		applicationId: v.string(),
 		environment: v.string(),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			throw new Error("Not authenticated");
-		}
+		
 
 		const existingApp = await ctx.db
 			.query("applications")
 			.filter((q) =>
 				q.and(
 					q.eq(q.field("applicationId"), args.applicationId),
-					q.eq(q.field("userId"), user.subject)
+					q.eq(q.field("userId"), args.userId)
 				)
 			)
 			.first();
@@ -182,19 +168,17 @@ export const removeEnvironment = mutation({
 	args: {
 		applicationId: v.string(),
 		environment: v.string(),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) {
-			throw new Error("Not authenticated");
-		}
+		
 
 		const existingApp = await ctx.db
 			.query("applications")
 			.filter((q) =>
 				q.and(
 					q.eq(q.field("applicationId"), args.applicationId),
-					q.eq(q.field("userId"), user.subject)
+					q.eq(q.field("userId"), args.userId)
 				)
 			)
 			.first();

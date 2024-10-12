@@ -1,4 +1,5 @@
 
+import { auth } from "@clerk/nextjs/server";
 import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
 import { Icons } from "@mpesaflow/ui/icons";
@@ -6,6 +7,7 @@ import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { api } from "../../../../../../convex/_generated/api";
+import { useCurrentEnvironment } from "../_components/enviroment-switch";
 import ApiKeysTable from "./_components/apiKeys-table";
 import CreateApiKey from "./_components/create-apiKey";
 
@@ -19,14 +21,17 @@ export default async function AppPage({
   params: { app_id: string };
 }) {
   const { app_id } = params;
+  const { userId } = auth();
 
   const app = await fetchQuery(api.appActions.getApplicationData, {
     applicationId: app_id,
+    userId: userId || "",
   });
-
+  const currentEnvironment = useCurrentEnvironment();
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: app_id || "",
-    enviroment: app?.enviroment || [],
+    enviroment: [currentEnvironment],
+    userId: userId || "",
   });
 
   return (
