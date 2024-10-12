@@ -33,7 +33,14 @@ export default async function AppPage({
       <DataChart />
       <div>
         <h1 className="text-lg mb-4">Recent Transactions</h1>
-        <DataTable KeyId={keyId as string} />
+
+        {keyId ? (
+          <DataTable KeyId={keyId as string} />
+        ) : (
+          <div className="flex-1 text-sm text-muted-foreground">
+            No transactions found. Please create a new transaction.
+          </div>
+        )}
       </div>
     </div>
   );

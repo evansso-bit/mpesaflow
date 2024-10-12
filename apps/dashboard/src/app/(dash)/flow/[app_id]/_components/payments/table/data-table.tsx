@@ -36,9 +36,14 @@ import { columns } from "./columns";
 
 export default function DataTable({ KeyId }: { KeyId: string }) {
   const [isLoading, setIsLoading] = useState(true);
+
+
+
   const data = useQuery(api.transactions.getTransactions, {
     KeyId: KeyId,
+
   });
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
