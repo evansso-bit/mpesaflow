@@ -17,7 +17,7 @@ export const createApplication = mutation({
 		await ctx.db.insert("applications", {
 			...args,
 			currentEnvironment: args.environments[0] || "development",
-			enviroment: args.environments,
+			enviroments: args.environments,
 		});
 
 		return "Application created successfully";
@@ -105,7 +105,7 @@ export const saveCurrentEnvironment = mutation({
 			throw new Error("Application not found");
 		}
 
-		if (!existingApp.enviroment.includes(args.currentEnvironment)) {
+		if (!existingApp.enviroments.includes(args.currentEnvironment)) {
 			throw new Error("Invalid environment");
 		}
 
@@ -160,11 +160,11 @@ export const addEnvironment = mutation({
 		}
 
 		const updatedEnvironments = [
-			...new Set([...existingApp.enviroment, args.environment]),
+			...new Set([...existingApp.enviroments, args.environment]),
 		];
 
 		await ctx.db.patch(existingApp._id, {
-			enviroment: updatedEnvironments,
+			enviroments: updatedEnvironments,
 		});
 	},
 });
@@ -192,18 +192,18 @@ export const removeEnvironment = mutation({
 			throw new Error("Application not found");
 		}
 
-		const updatedEnvironments = existingApp.enviroment.filter(
+		const updatedEnvironments = existingApp.enviroments.filter(
 			(env) => env !== args.environment
 		);
 
 		if (existingApp.currentEnvironment === args.environment) {
 			await ctx.db.patch(existingApp._id, {
-				enviroment: updatedEnvironments,
+				enviroments: updatedEnvironments,
 				currentEnvironment: updatedEnvironments[0] || "development",
 			});
 		} else {
 			await ctx.db.patch(existingApp._id, {
-				enviroment: updatedEnvironments,
+				enviroments: updatedEnvironments,
 			});
 		}
 	},

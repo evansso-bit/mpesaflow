@@ -13,7 +13,7 @@ export default defineSchema({
 	}),
 	applications: defineTable({
 		applicationId: v.string(),
-		enviroment: v.array(v.string()),
+		enviroments: v.array(v.string()),
 		name: v.string(),
 		userId: v.string(),
 		ConsumerKey: v.optional(v.string()),
