@@ -6,22 +6,22 @@ import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
 import { Icons } from "@mpesaflow/ui/icons";
 import Link from "next/link";
+import AppsSelect from "./apps-select";
 import { EnvironmentSelect } from "./enviroment-switch";
 
 
 export default function TopNav({ appId }: { appId: string }) {
   return (
-    <nav className={cn("border-b border-gray-200 w-full bg-white")}>
-      <div className="flex flex-row justify-between w-full mx-auto items-center px-4 py-2">
+    <nav className={cn("border-b border-gray-200 w-full bg-white px-4")}>
+      <div className="flex flex-row justify-between w-full mx-auto items-center py-2">
 
-        <div className="flex items-center gap-3">
-          <Link className="text-xl text-[]" href="/">
-            <h1>
-              MpesaFlow
-
-            </h1>
+        <div className="flex items-center gap-5">
+          <Link className="text-xl font-semibold" href="/">
+            MpesaFlow
           </Link>
-
+          <Icons.slash className="size-5 text-black" />
+          <AppsSelect />
+          <Icons.slash className="size-5 text-black" />
           <EnvironmentSelect appId={appId} />
         </div>
 

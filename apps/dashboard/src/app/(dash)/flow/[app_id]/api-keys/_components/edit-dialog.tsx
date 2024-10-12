@@ -17,12 +17,13 @@ import { Label } from "@mpesaflow/ui/label";
 import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
 export default function EditApiKeyDialog({
   Id,
   keyId,
   apiName,
-  appId,
+
   isOpen,
   setIsOpen,
   closeDropdown,
@@ -30,13 +31,14 @@ export default function EditApiKeyDialog({
   Id: string;
   keyId: string;
   apiName: string;
-  appId: string;
+
   closeDropdown: () => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }) {
   const [state, formAction] = useFormState(updateApiKeyAction, undefined);
   const [name, setName] = React.useState(apiName);
+  const params = useParams<{ app_id: string }>()
 
   React.useEffect(() => {
     if (!state) return;
@@ -88,7 +90,7 @@ export default function EditApiKeyDialog({
             />
             <input type="hidden" name="_id" value={Id} />
             <input type="hidden" name="keyId" value={keyId} />
-            <input type="hidden" name="appId" value={appId} />
+            <input type="hidden" name="appId" value={params.app_id} />
           </div>
           <DialogFooter className="mt-8">
             <Button

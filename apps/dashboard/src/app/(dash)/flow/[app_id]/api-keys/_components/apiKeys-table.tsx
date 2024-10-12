@@ -10,19 +10,18 @@ import {
 } from "@mpesaflow/ui/table";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "../../../../../../../convex/_generated/api";
-import { useCurrentEnvironment } from "../../_components/enviroment-switch";
 import CreateApiKey from "./create-apiKey";
 import DropdownMenuComponent from "./dropdown-menu";
 
 export default async function ApiKeysTable({
-  enviroment,
+
   appId,
 }: {
-  enviroment: string[];
+
   appId: string;
 }) {
   const { userId } = auth();
-  const currentEnvironment = "development";
+  const currentEnvironment = await CurrentEnvironment(appId);
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: appId || "",
     enviroment: [currentEnvironment],
@@ -36,8 +35,6 @@ export default async function ApiKeysTable({
           <h1 className="text-xl">You don't have any API keys yet</h1>
           <p className="mb-4">Create an API key to access your application</p>
           <CreateApiKey
-            enviroment={enviroment}
-            applicationId={appId || ""}
           />
         </div>
       ) : (
@@ -55,14 +52,13 @@ export default async function ApiKeysTable({
               <TableRow key={key._id}>
                 <TableCell>{key.name}</TableCell>
                 <TableCell>
-                  <Badge className="truncate w-[100px] overflow-hidden">
+                  <Badge className="truncate  overflow-hidden">
                     {key.key}...
                   </Badge>
                 </TableCell>
                 <TableCell>{key._creationTime}</TableCell>
                 <TableCell>
                   <DropdownMenuComponent
-                    appId={key.applicationId}
                     Id={key._id}
                     ApiName={key.name}
                     keyId={key.keyId}
@@ -75,4 +71,14 @@ export default async function ApiKeysTable({
       )}
     </>
   );
+}
+
+
+async function CurrentEnvironment(app_id: string) {
+  const { userId } = auth();
+  const currentEnvironment = await fetchQuery(api.appActions.getCurrentEnvironment, {
+    applicationId: app_id,
+    userId: userId || "",
+  });
+  return currentEnvironment || "development";
 }

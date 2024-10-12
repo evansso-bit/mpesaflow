@@ -7,7 +7,6 @@ import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { api } from "../../../../../../convex/_generated/api";
-import { useCurrentEnvironment } from "../_components/enviroment-switch";
 import ApiKeysTable from "./_components/apiKeys-table";
 import CreateApiKey from "./_components/create-apiKey";
 
@@ -22,17 +21,17 @@ export default async function AppPage({
 }) {
   const { app_id } = params;
   const { userId } = auth();
+  const environment = await CurrentEnvironment(params.app_id);
 
   const app = await fetchQuery(api.appActions.getApplicationData, {
     applicationId: app_id,
     userId: userId || "",
   });
 
-  const enviroment = "development";
 
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: app_id || "",
-    enviroment: [enviroment],
+    enviroment: [environment],
     userId: userId || "",
   });
 
@@ -45,8 +44,6 @@ export default async function AppPage({
           className={cn("flex flex-row gap-7", data.length === 0 && "hidden")}
         >
           <CreateApiKey
-            enviroment={app?.enviroments.includes("development") ? ["development"] : ["production"]}
-            applicationId={params.app_id}
           />
 
           <Link href="https://docs.mpesaflow.com" target="_blank">
@@ -60,8 +57,16 @@ export default async function AppPage({
 
       <ApiKeysTable
         appId={params.app_id}
-        enviroment={app?.enviroments || []}
       />
     </div>
   );
+}
+
+async function CurrentEnvironment(app_id: string) {
+  const { userId } = auth();
+  const currentEnvironment = await fetchQuery(api.appActions.getCurrentEnvironment, {
+    applicationId: app_id,
+    userId: userId || "",
+  });
+  return currentEnvironment || "development";
 }

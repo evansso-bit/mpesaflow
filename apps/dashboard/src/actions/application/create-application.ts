@@ -5,7 +5,6 @@ import { fetchMutation } from "convex/nextjs";
 import { api } from "../../../convex/_generated/api";
 
 export async function createApplicationAction(
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	prevState: any,
 	formData: FormData
 ) {
@@ -28,7 +27,7 @@ export async function createApplicationAction(
 			ConsumerSecret: consumerSecret || "",
 			passKey: passKey || "",
 			userId: userId || "",
-			enviroments: ['development'],
+			environments: [environment],
 		});
 
 		return {

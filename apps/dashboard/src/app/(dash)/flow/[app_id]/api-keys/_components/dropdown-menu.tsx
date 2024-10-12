@@ -18,12 +18,10 @@ export default function DropdownMenuComponent({
   Id,
   keyId,
   ApiName,
-  appId,
 }: {
   Id: string;
   keyId: string;
   ApiName: string;
-  appId: string;
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -44,7 +42,6 @@ export default function DropdownMenuComponent({
               Id={Id}
               keyId={keyId}
               apiName={ApiName}
-              appId={appId}
               isOpen={isEditDialogOpen}
               setIsOpen={setIsEditDialogOpen}
               closeDropdown={() => setIsDropdownOpen(false)}
@@ -56,7 +53,6 @@ export default function DropdownMenuComponent({
           >
             <DeleteApiKeyDialog
               Id={Id}
-              appId={appId}
               isOpen={isDeleteDialogOpen}
               setIsOpen={setIsDeleteDialogOpen}
               closeDropdown={() => setIsDropdownOpen(false)}

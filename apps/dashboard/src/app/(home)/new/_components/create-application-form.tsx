@@ -19,14 +19,13 @@ import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
-
 export function CreateApplicationForm() {
     const [state, formAction] = useFormState(createApplicationAction, undefined);
     const [name, setName] = useState("");
-    const [enviroment, setEnvrioment] = useState<string[]>(["development"])
-    const [consumerKey, setConsumerKey] = useState("")
-    const [consumerSecret, setConsumerSecret] = useState("")
-    const [passKey, setPassKey] = useState("")
+    const [environment, setEnvironment] = useState<string>("development");
+    const [consumerKey, setConsumerKey] = useState("");
+    const [consumerSecret, setConsumerSecret] = useState("");
+    const [passKey, setPassKey] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -38,14 +37,10 @@ export function CreateApplicationForm() {
         }
     }, [state, router]);
 
-
     return (
-
-
-
-        <div >
+        <div>
             <form action={formAction}>
-                <div className="flex fle-row gap-3 items-center">
+                <div className="flex flex-row gap-3 items-center">
                     <div className="flex flex-col gap-2 mb-4">
                         <Label>Application Name</Label>
                         <Input
@@ -55,11 +50,12 @@ export function CreateApplicationForm() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
+                            className="w-9/12"
                         />
-                        <input type="hidden" name="enviroment" value={enviroment} />
+                        <input type="hidden" name="environment" value={environment} />
                     </div>
 
-                    <Select defaultValue="development" onValueChange={(value) => setEnvrioment([value])}>
+                    <Select value={environment} defaultValue="development" onValueChange={(value) => setEnvironment(value)}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select an environment" />
                         </SelectTrigger>
@@ -72,7 +68,7 @@ export function CreateApplicationForm() {
                         </SelectContent>
                     </Select>
                 </div>
-                {enviroment.includes("production") && (
+                {environment === "production" && (
                     <div className="flex flex-col gap-3">
                         <div className="grid grid-rows-2 gap-0.5">
                             <Label>CONSUMER KEY</Label>
@@ -111,18 +107,19 @@ export function CreateApplicationForm() {
                     </div>
                 )}
 
-                <SubmitButton name={name} enviroment={enviroment} consumerKey={consumerKey} consumerSecret={consumerSecret} passKey={passKey} />
-
+                <SubmitButton name={name} environment={environment} consumerKey={consumerKey} consumerSecret={consumerSecret} passKey={passKey} />
             </form>
         </div>
     )
 }
 
-function SubmitButton({ name, enviroment, consumerKey, consumerSecret, passKey }: { name: string, enviroment: string[], consumerKey: string, consumerSecret: string, passKey: string }) {
+function SubmitButton({ name, environment, consumerKey, consumerSecret, passKey }: { name: string, environment: string, consumerKey: string, consumerSecret: string, passKey: string }) {
     const { pending } = useFormStatus();
 
+    const isDisabled = pending || name.trim() === "" || (environment === "production" && (consumerKey.trim() === "" || consumerSecret.trim() === "" || passKey.trim() === ""));
+
     return (
-        <Button disabled={pending || name.trim() === "" && !(enviroment.includes("production") && (consumerKey.trim() === "" || consumerSecret.trim() === "" || passKey.trim() === ""))} type="submit">
+        <Button disabled={isDisabled} type="submit">
             {pending ? (
                 <>
                     <Icons.spinner className="animate-spin size-4 mr-2" />

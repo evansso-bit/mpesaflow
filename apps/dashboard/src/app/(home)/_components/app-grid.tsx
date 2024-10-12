@@ -28,14 +28,14 @@ export default async function AppGrid() {
           <div >
             <h2>{app.name}</h2>
             <Link className="underline text-sm text-gray-500" href={`/flow/${app.applicationId}`} >
-              {app.enviroments}
+              {app.environments}
             </Link>
           </div>
 
           <p
-            className={`${app.enviroments.includes("development") ? "bg-orange-200 text-orange-600" : "bg-green-200 text-green-700"} px-2 py-0.5 rounded-sm text-sm w-fit`}
+            className={`${app.environments.includes("development") ? "bg-orange-200 text-orange-600" : "bg-green-200 text-green-700"} px-2 py-0.5 rounded-sm text-sm w-fit`}
           >
-            {app.enviroments}
+            {app.environments}
           </p>
         </Link>
       ))}

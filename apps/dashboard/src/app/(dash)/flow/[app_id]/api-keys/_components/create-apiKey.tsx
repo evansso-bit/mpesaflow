@@ -17,17 +17,14 @@ import { Label } from "@mpesaflow/ui/label";
 import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
-export default function CreateApiKey({
-  applicationId,
-  enviroment,
-}: {
-  applicationId: string;
-  enviroment: string[];
-}) {
+export default function CreateApiKey() {
   const [state, formAction] = useFormState(createApiKeyAction, undefined);
   const [isOpen, setIsOpen] = React.useState(false);
   const [name, setName] = React.useState("");
+
+  const params = useParams<{ app_id: string }>()
 
   React.useEffect(() => {
     if (!state) {
@@ -48,8 +45,6 @@ export default function CreateApiKey({
       setName(""); // Reset the name when closing the dialog
     }
   };
-
-  console.log(`${applicationId} enviroment: ${enviroment}`);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -78,8 +73,7 @@ export default function CreateApiKey({
               onChange={(e) => setName(e.target.value)}
               required
             />
-            <input type="hidden" name="applicationId" value={applicationId} />
-            <input type="hidden" name="enviroment" value={enviroment} />
+            <input type="hidden" name="applicationId" value={params.app_id} />
           </div>
           <DialogFooter>
             <Button

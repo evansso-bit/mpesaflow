@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import { api } from "../../../../../../convex/_generated/api"
 import RegisterModal from "./register-modal"
 
-export function EnvironmentSelect({ appId }: { appId: string }) {
+export function EnvironmentSelect() {
     const params = useParams<{ app_id: string }>()
     const { userId } = useAuth()
     const application = useQuery(api.appActions.getApplicationData, {
@@ -24,14 +24,13 @@ export function EnvironmentSelect({ appId }: { appId: string }) {
         userId: userId || '',
     })
     const saveEnvironment = useMutation(api.appActions.saveCurrentEnvironment)
-    const addEnvironment = useMutation(api.appActions.addEnvironment)
-    const removeEnvironment = useMutation(api.appActions.removeEnvironment)
 
-    const environments = application?.enviroments || ['development']
+    const environments = application?.environments || ['development']
     const currentEnvironment = application?.currentEnvironment || 'development'
-    const isProduction = environments.includes('production')
+    const hasProduction = environments.includes('production')
 
     const [selectedEnvironment, setSelectedEnvironment] = useState(currentEnvironment)
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
 
     useEffect(() => {
         if (currentEnvironment) {
@@ -40,21 +39,21 @@ export function EnvironmentSelect({ appId }: { appId: string }) {
     }, [currentEnvironment])
 
     const handleEnvironmentChange = (value: string) => {
-        if (value === 'add-new') {
-            // Logic to add a new environment
-            const newEnv = prompt('Enter new environment name:')
-            if (newEnv) {
-                addEnvironment({ applicationId: params.app_id || '', environment: newEnv, userId: userId || '' })
-            }
-        } else if (value === 'remove') {
-            // Logic to remove the current environment
-            if (confirm(`Are you sure you want to remove the "${selectedEnvironment}" environment?`)) {
-                removeEnvironment({ applicationId: params.app_id || '', environment: selectedEnvironment, userId: userId || '' })
-            }
+        if (value === 'register') {
+            setIsRegisterModalOpen(true)
         } else {
             setSelectedEnvironment(value)
-            saveEnvironment({ applicationId: params.app_id || '', currentEnvironment: value, userId: userId || '' })
+            saveEnvironment({
+                applicationId: params.app_id || '',
+                currentEnvironment: value,
+                userId: userId || ''
+            })
         }
+    }
+
+    const handleRegisterProduction = async () => {
+        setIsRegisterModalOpen(false)
+
     }
 
     return (
@@ -71,29 +70,33 @@ export function EnvironmentSelect({ appId }: { appId: string }) {
                                 {env}
                             </SelectItem>
                         ))}
-                        <SelectItem value="add-new">Add New Environment</SelectItem>
-                        {environments.length > 1 && <SelectItem value="remove">Remove Current Environment</SelectItem>}
+                        {!hasProduction && (
+                            <SelectItem value="register">
+                                Create Production Instance
+                            </SelectItem>
+                        )}
                     </SelectGroup>
-                    {!isProduction && (
-                        <SelectItem value="register">
-                            <RegisterModal />
-                        </SelectItem>
-                    )}
                 </SelectContent>
             </Select>
+            {isRegisterModalOpen && (
+                <RegisterModal
+                    onClose={() => setIsRegisterModalOpen(false)}
+                    onRegister={handleRegisterProduction}
+                />
+            )}
         </div>
-    );
+    )
 }
 
 export function useCurrentEnvironment() {
     const params = useParams<{ app_id: string }>()
     const { userId } = useAuth()
-    const application = useQuery(api.appActions.getApplicationData, {
+    const currentEnvironment = useQuery(api.appActions.getCurrentEnvironment, {
         applicationId: params.app_id || '',
         userId: userId || '',
-    });
+    })
 
     return {
-        enviroment: application?.currentEnvironment || "development",
+        environment: currentEnvironment || "development",
     }
 }

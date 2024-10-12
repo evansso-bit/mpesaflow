@@ -1,9 +1,8 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { fetchMutation, fetchQuery } from "convex/nextjs";;
+import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "../../../convex/_generated/api";
-
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function updateApplicationAction(prevState: any, formData: FormData) {
@@ -11,7 +10,7 @@ export async function updateApplicationAction(prevState: any, formData: FormData
     const consumerKey = formData.get("consumerKey") as string;
     const consumerSecret = formData.get("consumerSecret") as string;
     const passKey = formData.get("passKey") as string;
-    const enviroments = formData.get("enviroment") as string;
+    const environments = JSON.parse(formData.get("environments") as string) as string[];
     const { userId } = auth();
 
     const appData = await fetchQuery(api.appActions.getApplicationData, {
@@ -19,12 +18,9 @@ export async function updateApplicationAction(prevState: any, formData: FormData
         userId: userId || "",
     });
 
-
     if (!userId) {
         return { error: "User not found, Please sign in to create an application" };
     }
-
-  
 
     if (!appData) {
         return {
@@ -37,8 +33,8 @@ export async function updateApplicationAction(prevState: any, formData: FormData
         ConsumerKey: consumerKey,
         ConsumerSecret: consumerSecret,
         passKey: passKey,
-        enviroments: [enviroments] as string[],
-      
+        environments: environments,
+        currentEnvironment: "production",
     });
 
     return { message: "Application updated successfully" };

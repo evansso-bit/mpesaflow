@@ -8,6 +8,7 @@ import {
   MoreHorizontal,
   Plus,
   Settings,
+  Slash,
   SquarePen,
   Trash2,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import {
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  slash: Slash,
   arrowUpDown: ArrowUpDown,
   more: MoreHorizontal,
   feedback: MessageSquareText,

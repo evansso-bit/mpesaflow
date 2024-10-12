@@ -14,12 +14,12 @@ export default async function AppPage({
 }: {
   params: { app_id: string };
 }) {
-  const enviroment = "development";
-  console.log(enviroment);
+  const environment = await CurrentEnvironment(params.app_id);
+
   const { userId } = auth();
   const getApiKeys = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: params.app_id,
-    enviroment: [enviroment],
+    enviroment: [environment],
     userId: userId || "",
   });
 
@@ -28,7 +28,7 @@ export default async function AppPage({
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      <h1 className="text-2xl">Transactions Overview</h1>
+      <h1 className="text-2xl">Transactions Overview {environment}</h1>
 
       <DataChart />
       <div>
@@ -44,4 +44,14 @@ export default async function AppPage({
       </div>
     </div>
   );
+}
+
+
+async function CurrentEnvironment(app_id: string) {
+  const { userId } = auth();
+  const currentEnvironment = await fetchQuery(api.appActions.getCurrentEnvironment, {
+    applicationId: app_id,
+    userId: userId || "",
+  });
+  return currentEnvironment || "development";
 }

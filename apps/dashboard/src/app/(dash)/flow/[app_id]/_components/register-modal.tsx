@@ -1,29 +1,31 @@
 'use client'
 
-import { updateApplicationAction } from "@//actions/application/update-application";
-import { Button } from "@mpesaflow/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@mpesaflow/ui/dialog";
-import { Icons } from "@mpesaflow/ui/icons";
-import { Input } from "@mpesaflow/ui/input";
-import { Label } from "@mpesaflow/ui/label";
-import { useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { updateApplicationAction } from "@//actions/application/update-application"
+import { Button } from "@mpesaflow/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@mpesaflow/ui/dialog"
+import { Icons } from "@mpesaflow/ui/icons"
+import { Input } from "@mpesaflow/ui/input"
+import { Label } from "@mpesaflow/ui/label"
+import { useState } from "react"
+import { useFormState, useFormStatus } from "react-dom"
 
+export default function RegisterModal({ onClose, onRegister }: { onClose: () => void, onRegister: () => Promise<void> }) {
+    const [state, formAction] = useFormState(updateApplicationAction, null)
+    const [consumerKey, setConsumerKey] = useState('')
+    const [consumerSecret, setConsumerSecret] = useState('')
+    const [passKey, setPassKey] = useState('')
 
-export default function RegisterModal() {
-    const [state, formAction] = useFormState(updateApplicationAction, null);
-    const [consumerKey, setConsumerKey] = useState('');
-    const [consumerSecret, setConsumerSecret] = useState('');
-    const [passKey, setPassKey] = useState('');
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault()
+        const formData = new FormData(event.target as HTMLFormElement)
+        formData.append('environments', JSON.stringify(['development', 'production']))
+        await formAction(formData)
+        await onRegister()
+        onClose()
+    }
 
     return (
-        <Dialog>
-            <DialogTrigger>
-                <div className="flex items-center gap-2">
-                    <Icons.plus />
-                    Create Production Instance
-                </div>
-            </DialogTrigger>
+        <Dialog open={true} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Create Production Instance</DialogTitle>
@@ -32,7 +34,7 @@ export default function RegisterModal() {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={formAction}>
+                <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-2 gap-4">
                             <Label htmlFor="consumerKey">Consumer Key</Label>
@@ -40,7 +42,7 @@ export default function RegisterModal() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <Label htmlFor="consumerKey">Consumer Secret</Label>
+                            <Label htmlFor="consumerSecret">Consumer Secret</Label>
                             <Input value={consumerSecret} onChange={(e) => setConsumerSecret(e.target.value)} type="text" id="consumerSecret" name="consumerSecret" required />
                         </div>
 
@@ -48,6 +50,8 @@ export default function RegisterModal() {
                             <Label htmlFor="passKey">Pass Key</Label>
                             <Input value={passKey} onChange={(e) => setPassKey(e.target.value)} type="text" id="passKey" name="passKey" required />
                         </div>
+
+                        <input type="hidden" name="environment" value="production" />
 
                         <SubmitButton consumerKey={consumerKey} consumerSecret={consumerSecret} passKey={passKey} />
                     </div>
@@ -58,12 +62,16 @@ export default function RegisterModal() {
 }
 
 function SubmitButton({ consumerKey, consumerSecret, passKey }: { consumerKey: string, consumerSecret: string, passKey: string }) {
-    const { pending } = useFormStatus();
+    const { pending } = useFormStatus()
 
-    return <Button type="submit" disabled={!consumerKey || !consumerSecret || !passKey || pending}>{pending ? (
-        <>
-            <Icons.spinner className="mr-2 size-4 animate-spin" />
-            Creating...
-        </>
-    ) : 'Create Instance'}</Button>
+    return (
+        <Button type="submit" disabled={!consumerKey || !consumerSecret || !passKey || pending}>
+            {pending ? (
+                <>
+                    <Icons.spinner className="mr-2 size-4 animate-spin" />
+                    Creating...
+                </>
+            ) : 'Create Instance'}
+        </Button>
+    )
 }

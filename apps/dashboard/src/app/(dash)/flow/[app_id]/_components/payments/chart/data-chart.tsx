@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@mpesaflow/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const transactionData = [
   { date: "2024-03-03", amount: 650, status: "failed" },
@@ -45,8 +45,11 @@ export default function DataChart() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <BarChart accessibilityLayer data={transactionData}>
+        <ChartContainer config={chartConfig} className="h-[500px] w-full">
+          <AreaChart accessibilityLayer data={transactionData}  margin={{
+              left: 12,
+              right: 12,
+            }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
@@ -70,8 +73,8 @@ export default function DataChart() {
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="amount" fill="var(--color-amount)" radius={4} />
-          </BarChart>
+            <Area type="natural" dataKey="amount" fill="var(--color-amount)" fillOpacity={0.4} stroke="var(--color-amount)" />
+          </AreaChart>
         </ChartContainer>
       </CardContent>
     </Card>

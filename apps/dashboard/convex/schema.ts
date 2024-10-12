@@ -16,7 +16,7 @@ export default defineSchema({
     ConsumerSecret: v.string(),
     applicationId: v.string(),
     currentEnvironment: v.string(),
-    enviroments: v.array(v.string()),
+    environments: v.array(v.string()),
     name: v.string(),
     passKey: v.string(),
     userId: v.string(),

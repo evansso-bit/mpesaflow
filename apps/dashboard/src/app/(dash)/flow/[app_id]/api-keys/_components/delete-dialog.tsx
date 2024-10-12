@@ -15,23 +15,25 @@ import { Icons } from "@mpesaflow/ui/icons";
 import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
 export default function DeleteApiKeyDialog({
   Id,
-  appId,
+
   isOpen,
   setIsOpen,
   closeDropdown,
   keyId,
 }: {
   Id: string;
-  appId: string;
+
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   closeDropdown: () => void;
   keyId: string;
 }) {
   const [state, formAction] = useFormState(deleteApiKeyAction, undefined);
+  const params = useParams<{ app_id: string }>()
 
   React.useEffect(() => {
     if (!state) return;
@@ -71,7 +73,7 @@ export default function DeleteApiKeyDialog({
         </AlertDialogHeader>
         <form action={formAction}>
           <input type="hidden" name="_id" value={Id} />
-          <input type="hidden" name="appId" value={appId} />
+          <input type="hidden" name="appId" value={params.app_id} />
           <input type="hidden" name="keyId" value={keyId} />
 
           <div className="flex justify-end space-x-2 mt-4">
