@@ -1,9 +1,8 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { api } from "convex/_generated/api";
-import { fetchMutation, fetchQuery } from "convex/nextjs";
-import { revalidatePath } from "next/cache";
+import { fetchMutation, fetchQuery } from "convex/nextjs";;
+import { api } from "../../../convex/_generated/api";
 
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
