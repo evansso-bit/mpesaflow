@@ -27,10 +27,10 @@ export default async function AppPage({
     applicationId: app_id,
     userId: userId || "",
   });
-  const currentEnvironment = useCurrentEnvironment();
+  const { enviroment } = useCurrentEnvironment();
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: app_id || "",
-    enviroment: [currentEnvironment],
+    enviroment: [enviroment],
     userId: userId || "",
   });
 
@@ -43,7 +43,7 @@ export default async function AppPage({
           className={cn("flex flex-row gap-7", data.length === 0 && "hidden")}
         >
           <CreateApiKey
-            enviroment={app?.enviroment.includes("development") ? ["development"] : ["production"]}
+            enviroment={app?.enviroments.includes("development") ? ["development"] : ["production"]}
             applicationId={params.app_id}
           />
 
@@ -58,7 +58,7 @@ export default async function AppPage({
 
       <ApiKeysTable
         appId={params.app_id}
-        enviroment={app?.enviroment || []}
+        enviroment={app?.enviroments || []}
       />
     </div>
   );

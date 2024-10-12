@@ -27,7 +27,7 @@ export function EnvironmentSelect({ appId }: { appId: string }) {
     const addEnvironment = useMutation(api.appActions.addEnvironment)
     const removeEnvironment = useMutation(api.appActions.removeEnvironment)
 
-    const environments = application?.enviroment || ['development']
+    const environments = application?.enviroments || ['development']
     const currentEnvironment = application?.currentEnvironment || 'development'
     const isProduction = environments.includes('production')
 
@@ -93,5 +93,7 @@ export function useCurrentEnvironment() {
         userId: userId || '',
     });
 
-    return application?.currentEnvironment || "development";
+    return {
+        enviroment: application?.currentEnvironment || "development",
+    }
 }

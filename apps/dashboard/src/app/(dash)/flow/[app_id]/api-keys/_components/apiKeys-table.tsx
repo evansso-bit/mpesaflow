@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs/server";
 import { Badge } from "@mpesaflow/ui/badge";
 import {
   Table,
@@ -9,6 +10,7 @@ import {
 } from "@mpesaflow/ui/table";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "../../../../../../../convex/_generated/api";
+import { useCurrentEnvironment } from "../../_components/enviroment-switch";
 import CreateApiKey from "./create-apiKey";
 import DropdownMenuComponent from "./dropdown-menu";
 
@@ -19,9 +21,12 @@ export default async function ApiKeysTable({
   enviroment: string[];
   appId: string;
 }) {
+  const { userId } = auth();
+  const { enviroment: currentEnvironment } = useCurrentEnvironment();
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: appId || "",
-    enviroment: enviroment,
+    enviroment: [currentEnvironment],
+    userId: userId || "",
   });
 
   return (

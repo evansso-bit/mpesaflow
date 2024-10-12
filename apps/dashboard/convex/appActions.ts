@@ -5,19 +5,22 @@ export const createApplication = mutation({
 	args: {
 		passKey: v.optional(v.string()),
 		name: v.string(),
-		environments: v.array(v.string()),
+		enviroments: v.array(v.string()),
 		applicationId: v.string(),
 		ConsumerKey: v.optional(v.string()),
 		ConsumerSecret: v.optional(v.string()),
 		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		
-
 		await ctx.db.insert("applications", {
-			...args,
-			currentEnvironment: args.environments[0] || "development",
-			enviroments: args.environments,
+			applicationId: args.applicationId,
+			name: args.name,
+			userId: args.userId,
+			ConsumerKey: args.ConsumerKey || "", // Default to empty string if undefined
+			ConsumerSecret: args.ConsumerSecret || "", // Default to empty string if undefined
+			passKey: args.passKey || "", // Default to empty string if undefined
+			currentEnvironment: args.enviroments[0] || "development",
+			enviroments: args.enviroments,
 		});
 
 		return "Application created successfully";
@@ -30,7 +33,7 @@ export const updateApplication = mutation({
 		ConsumerKey: v.optional(v.string()),
 		ConsumerSecret: v.optional(v.string()),
 		passKey: v.optional(v.string()),
-		environments: v.array(v.string()),
+		enviroments: v.array(v.string()),
 		currentEnvironment: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
@@ -193,7 +196,7 @@ export const removeEnvironment = mutation({
 		}
 
 		const updatedEnvironments = existingApp.enviroments.filter(
-			(env) => env !== args.environment
+			(env: string) => env !== args.environment
 		);
 
 		if (existingApp.currentEnvironment === args.environment) {

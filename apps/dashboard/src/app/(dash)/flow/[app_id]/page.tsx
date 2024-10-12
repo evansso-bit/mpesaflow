@@ -15,11 +15,11 @@ export default async function AppPage({
 }: {
   params: { app_id: string };
 }) {
-  const currentEnvironment = useCurrentEnvironment();
+  const { enviroment } = useCurrentEnvironment();
   const { userId } = auth();
   const getApiKeys = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: params.app_id,
-    enviroment: [currentEnvironment],
+    enviroment: [enviroment],
     userId: userId || "",
   });
 

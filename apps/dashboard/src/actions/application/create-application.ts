@@ -24,11 +24,11 @@ export async function createApplicationAction(
 		await fetchMutation(api.appActions.createApplication, {
 			name: Name,
 			applicationId: applicationId,
-			environments: ['development'],
 			ConsumerKey: consumerKey || "",
 			ConsumerSecret: consumerSecret || "",
 			passKey: passKey || "",
 			userId: userId || "",
+			enviroments: ['development'],
 		});
 
 		return {

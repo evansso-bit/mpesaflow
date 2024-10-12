@@ -68,9 +68,10 @@ export default function DashboardLayout({
             <div className="flex flex-1 pt-16">
               <div className="fixed left-0 top-16 bottom-0 w-[350px] z-40">
                 <SideNav />
+                <Toaster richColors />
               </div>
               <main className="flex-1 ml-[350px] bg-[#f7f7f7] p-6 overflow-y-auto">
-                <Toaster richColors />
+
                 {children}
               </main>
             </div>

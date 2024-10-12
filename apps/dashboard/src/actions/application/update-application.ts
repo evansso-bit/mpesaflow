@@ -37,7 +37,8 @@ export async function updateApplicationAction(prevState: any, formData: FormData
         ConsumerKey: consumerKey,
         ConsumerSecret: consumerSecret,
         passKey: passKey,
-       environments: [enviroments] as string[],
+        enviroments: [enviroments] as string[],
+      
     });
 
     return { message: "Application updated successfully" };
