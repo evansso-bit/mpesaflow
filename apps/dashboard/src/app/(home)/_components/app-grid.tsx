@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs/server";
 import { Icons } from "@mpesaflow/ui/icons";
 import { fetchQuery } from "convex/nextjs";
 import Link from "next/link";
@@ -5,7 +6,10 @@ import { api } from "../../../../convex/_generated/api";
 
 
 export default async function AppGrid() {
-  const data = await fetchQuery(api.appActions.getApplications);
+  const { userId } = auth();
+  const data = await fetchQuery(api.appActions.getApplications, {
+    userId: userId || "",
+  });
 
   return (
     <div className="mt-9 grid auto-rows-[minmax(14rem,_1fr)] grid-cols-[repeat(1,_minmax(15rem,_1fr))] gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">

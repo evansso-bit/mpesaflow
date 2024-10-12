@@ -24,7 +24,7 @@ export async function createApplicationAction(
 		await fetchMutation(api.appActions.createApplication, {
 			name: Name,
 			applicationId: applicationId,
-			environments: [environment],
+			environments: ['development'],
 			ConsumerKey: consumerKey || "",
 			ConsumerSecret: consumerSecret || "",
 			passKey: passKey || "",

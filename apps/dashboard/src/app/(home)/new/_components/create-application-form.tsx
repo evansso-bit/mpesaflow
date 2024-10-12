@@ -23,7 +23,7 @@ import { toast } from "sonner";
 export function CreateApplicationForm() {
     const [state, formAction] = useFormState(createApplicationAction, undefined);
     const [name, setName] = useState("");
-    const [enviroment, setEnvrioment] = useState<string[]>([])
+    const [enviroment, setEnvrioment] = useState<string[]>(["development"])
     const [consumerKey, setConsumerKey] = useState("")
     const [consumerSecret, setConsumerSecret] = useState("")
     const [passKey, setPassKey] = useState("")
