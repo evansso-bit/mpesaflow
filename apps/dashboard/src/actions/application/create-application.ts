@@ -19,6 +19,8 @@ export async function createApplicationAction(
 		const consumerSecret = formData.get("consumerSecret") as string;
 		const passKey = formData.get("passKey") as string;
 
+		console.log(Name, environment, consumerKey, consumerSecret, passKey);
+
 		await fetchMutation(api.appActions.createApplication, {
 			name: Name,
 			applicationId: applicationId,

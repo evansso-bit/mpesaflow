@@ -1,5 +1,4 @@
 import { v } from "convex/values";
-import type { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 
 export const createApplication = mutation({
@@ -20,6 +19,8 @@ export const createApplication = mutation({
 			currentEnvironment: args.environments[0] || "development",
 			enviroment: args.environments,
 		});
+
+		return "Application created successfully";
 	},
 });
 
@@ -35,7 +36,11 @@ export const updateApplication = mutation({
 	handler: async (ctx, args) => {
 		const { id, ...updateData } = args;
 		await ctx.db.patch(id, updateData);
+
+		return "Application updated successfully";
 	},
+
+	
 });
 
 export const getApplications = query({
