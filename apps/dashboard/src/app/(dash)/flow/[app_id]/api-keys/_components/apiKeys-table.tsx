@@ -22,7 +22,7 @@ export default async function ApiKeysTable({
   appId: string;
 }) {
   const { userId } = auth();
-  const { enviroment: currentEnvironment } = useCurrentEnvironment();
+  const currentEnvironment = "development";
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: appId || "",
     enviroment: [currentEnvironment],

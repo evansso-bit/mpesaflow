@@ -27,7 +27,9 @@ export default async function AppPage({
     applicationId: app_id,
     userId: userId || "",
   });
-  const { enviroment } = useCurrentEnvironment();
+
+  const enviroment = "development";
+
   const data = await fetchQuery(api.apiActions.getApiKeys, {
     applicationId: app_id || "",
     enviroment: [enviroment],
