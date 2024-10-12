@@ -1,5 +1,6 @@
-import { StatusBadge } from "./status-badge"
-import { RelativeTime } from "./relative-time"
+import type { ColumnDef } from "@tanstack/react-table"
+import { RelativeTime } from "./table/relative-time"
+import { StatusBadge } from "./table/status-badge"
 
 export type Payment = {
   transactionId: string
@@ -12,7 +13,7 @@ export type Payment = {
   date_created: string
 }
 
-export const columns = [
+export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "transactionId",
     header: "Transaction ID",
@@ -30,6 +31,7 @@ export const columns = [
     accessorKey: "amount",
     header: "Amount",
     cell: ({ row }) => {
+      // biome-ignore lint/style/useNumberNamespace: <explanation>
       const amount = parseFloat(row.getValue("amount"))
       const formatted = new Intl.NumberFormat("en-KE", {
         style: "currency",

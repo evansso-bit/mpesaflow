@@ -76,6 +76,12 @@ export default function DataTable({ KeyId }: { KeyId: string }) {
     return <Skeleton className="w-full h-[300px]" />;
   }
 
+  if (data?.transactions.length === 0) {
+    return <div className="flex-1 text-sm text-muted-foreground">
+      No transactions found. Please create a new transaction.
+    </div>;
+  }
+
   return (
     <div>
       <div className="flex items-center py-4">

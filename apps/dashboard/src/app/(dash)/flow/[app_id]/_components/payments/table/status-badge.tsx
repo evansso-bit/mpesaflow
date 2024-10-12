@@ -4,7 +4,7 @@ interface StatusBadgeProps {
   status: string;
 }
 
-export function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status }: StatusBadgeProps) {
   const statusColor =
     {
       completed: "bg-green-100 text-green-800",

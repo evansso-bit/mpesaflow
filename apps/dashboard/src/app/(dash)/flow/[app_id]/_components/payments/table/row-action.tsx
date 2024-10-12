@@ -22,12 +22,11 @@ export function RowAction({ payment }: { payment: any }) {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(payment.id)}
+          onClick={() => navigator.clipboard.writeText(payment.transactionId)}
         >
           Copy payment ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>View customer</DropdownMenuItem>
         <DropdownMenuItem>View payment details</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
