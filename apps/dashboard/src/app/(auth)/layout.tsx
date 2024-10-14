@@ -6,7 +6,35 @@ import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Authentication | MpesaFlow",
+  title: "Authentication | MpesaFlow Dashboard",
+  description: 'Secure login and authentication for MpesaFlow services',
+  openGraph: {
+    title: 'Authentication | MpesaFlow Dashboard',
+    description: 'Secure login and authentication for MpesaFlow services',
+    images: [
+      {
+        url: 'https://utfs.io/f/qGGrTNysMsOSdvImSKc21mSi3VWqw6lHvRXjpoy0OtBY4PxC',
+        width: 1200,
+        height: 630,
+        alt: 'MpesaFlow Authentication',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Authentication | MpesaFlow Dashboard',
+    description: 'Secure login and authentication for MpesaFlow services',
+    images: [
+      {
+        url: 'https://utfs.io/f/qGGrTNysMsOSdvImSKc21mSi3VWqw6lHvRXjpoy0OtBY4PxC',
+        width: 1200,
+        height: 630,
+        alt: 'MpesaFlow Authentication',
+      },
+    ],
+    site: '@mpesaflow',
+    creator: '@mpesaflow',
+  },
 };
 
 export default function AuthLayout({
@@ -16,27 +44,11 @@ export default function AuthLayout({
 
     <html lang="en">
       <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+        <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
         className={cn(

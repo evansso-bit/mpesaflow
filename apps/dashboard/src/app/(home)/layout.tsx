@@ -6,10 +6,41 @@ import { Toaster } from "@mpesaflow/ui/sonner";
 import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import MainNav from "./_components/main-nav";
 
+
 export const metadata: Metadata = {
   title: {
-    template: "%s | MpesaFlow",
-    default: "MpesaFlow Dashboard",
+    template: "%s | MpesaFlow Dashboard",
+    default: "Command Center | MpesaFlow Dashboard",
+  },
+  description: "Manage transactions, analyze data, and optimize your M-Pesa integrations in one powerful dashboard.",
+  openGraph: {
+    type: "website",
+    url: "https://mpesaflow.com",
+    title: "MpesaFlow",
+    description: "Manage transactions, analyze data, and optimize your M-Pesa integrations in one powerful dashboard.",
+    images: [
+      {
+        url: "https://utfs.io/f/qGGrTNysMsOSIr2gQD33Of1dHwtC0VqYaS9LyiT2DXeWkMmK",
+        width: 1200,
+        height: 630,
+        alt: "MpesaFlow",
+      },
+    ],
+    siteName: "MpesaFlow",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MpesaFlow",
+    description: "Manage transactions, analyze data, and optimize your M-Pesa integrations in one powerful dashboard.",
+    images: [
+      {
+        url: "https://utfs.io/f/qGGrTNysMsOSIr2gQD33Of1dHwtC0VqYaS9LyiT2DXeWkMmK",
+        width: 1200,
+        height: 630,
+        alt: "MpesaFlow",
+      },
+    ],
+    site: "@MpesaFlow",
   },
 };
 
@@ -19,31 +50,11 @@ export default function HomeLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+        <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link
-          rel="mask-icon"
-          href="/safari-pinned-tab.svg"
-          color="#5bbad5"
-        />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
         className={cn(
