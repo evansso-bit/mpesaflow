@@ -19,7 +19,7 @@ const app = new Hono<{
 // Custom CORS middleware
 app.use("*", async (c, next) => {
 	const origin = c.req.header("Origin");
-	const allowedOrigin = c.env.ALLOWED_ORIGIN || "https://dev.mpesaflow.com";
+	const allowedOrigin = c.env.ALLOWED_ORIGIN || "https://api.mpesaflow.com";
 
 	if (origin === allowedOrigin) {
 		c.header("Access-Control-Allow-Origin", origin);
@@ -252,6 +252,10 @@ app.get("/transaction-status/:transactionId", async (c) => {
 			return c.json({ error: "Unauthorized" }, 401);
 		}
 
+			if (unkeyContext.environment === "production") {
+				return c.json({ error: "This API is for development only" }, 401);
+			}
+
 		const transactionStatus = await convexMutation(
 			CONVEX_URL,
 			"transactions:getStatus",
@@ -289,6 +293,10 @@ app.get("/transactions", async (c) => {
 		if (!unkeyContext?.valid) {
 			return c.json({ error: "Unauthorized" }, 401);
 		}
+
+			if (unkeyContext.environment === "production") {
+				return c.json({ error: "This API is for development only" }, 401);
+			}
 
 		const transactions = await convexQuery(
 			CONVEX_URL,

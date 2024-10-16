@@ -14,8 +14,6 @@ export const metadata: Metadata = {
   },
   description: "Manage transactions, analyze data, and optimize your M-Pesa integrations in one powerful dashboard.",
   openGraph: {
-    type: "website",
-    url: "https://mpesaflow.com",
     title: "MpesaFlow",
     description: "Manage transactions, analyze data, and optimize your M-Pesa integrations in one powerful dashboard.",
     images: [

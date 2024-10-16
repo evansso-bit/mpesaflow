@@ -1,0 +1,135 @@
+---
+title: Next.js
+description: "Learn how to make your first transaction using Next.js and the MpesaFlow Node.js SDK."
+---
+
+## Prerequisites
+
+- Create an Application
+- Create an API Key
+
+
+## 1. Install
+Get the MpesaFlow Node.js SDK
+
+<CodeGroup>
+
+```npm npm
+npm install mpesaflow
+```
+
+```yarn yarn
+yarn add mpesaflow
+```
+
+```pnpm pnpm
+pnpm add mpesaflow
+```
+
+```bun bun
+bun add mpesaflow
+```
+</CodeGroup>
+
+
+## 2. Create an action file
+Create an action file for server action
+
+
+
+```javascript action.ts
+"use server";
+
+import Mpesaflow from "mpesaflow";
+
+export async function MpesaFlowAction(prevState: any, formData: FormData) {
+	const mpesaflow = new Mpesaflow({
+		apiKey: process.env.MPESAFLOW_API_KEY,
+		environment: "sandbox",
+	});
+
+	const amountValue = formData.get("amount");
+	const amount = Number(amountValue);
+
+	const accountReference = formData.get("accountReference") as string;
+	const phoneNumber = formData.get("phoneNumber") as string;
+	const transactionDesc = formData.get("transactionDesc") as string;
+
+	try {
+		const res = await mpesaflow.payments.create({
+			amount: amount,
+			accountReference: accountReference,
+			phoneNumber: phoneNumber,
+			transactionDesc: transactionDesc,
+		});
+
+		console.log(res.message);
+
+		return {
+			message: res.message,
+		};
+	} catch (error) {
+		return {
+			message: error,
+		};
+	}
+}
+
+```
+
+
+## 3. Create a form
+Create a form in page.jsx
+
+
+
+```javascript page.tsx
+'use client'
+
+import { useActionState } from "react"
+import { useEffect } from "react"
+import { MpesaFlowAction } from "./action"
+
+
+export default function Home() {
+  const [state, formAction, pending] = useActionState(MpesaFlowAction, undefined)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <form action={formAction}>
+        <div className="flex flex-col-gap-3">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="amount">Amount</label>
+            <input name="amount" type="number" required />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label>Number</label>
+            <input name="number" type="text" required />
+          </div>
+
+          <input type="hidden" name="transactionDesc" value={'Payment of service x'} />
+          <input type="hidden" name="accountReference" value={'MpesaFlow'} />
+        </div>
+
+        <Button disabled={pending} type="submit">
+          {pending ? 'submiting...' : 'submit'}
+        </Button>
+      </form>
+    </div>
+  )
+}
+```
+
+## 4. Try it youreself
+
+<CardGroup cols={2}>
+  <Card
+    title="Next.js Example (App Router)"
+    icon="up-right-from-square"
+    href="https://github.com/MpesaFlow/mpesaflow-nextjs-app-router-example"
+    
+  >
+  See the full source code
+  </Card>
+</CardGroup>
