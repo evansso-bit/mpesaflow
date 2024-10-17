@@ -45,11 +45,11 @@ export default function DataChart() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="h-[500px] w-full">
-          <AreaChart accessibilityLayer data={transactionData}  margin={{
-              left: 12,
-              right: 12,
-            }}>
+        <ChartContainer config={chartConfig} className="h-[700px] w-full">
+          <AreaChart accessibilityLayer data={transactionData} margin={{
+            left: 12,
+            right: 12,
+          }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"

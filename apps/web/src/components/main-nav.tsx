@@ -7,10 +7,16 @@ export default function MainNav() {
     <nav className="max-w-4xl justify-between border border-gray-200 w-full py-2 px-4 flex flex-row rounded-xl mx-auto mt-10 bg-white items-center">
       <h1 className="text-lg">MpesaFlow</h1>
 
+      <div className="flex flex-row gap-3 ">
+        <Link href={'https://docs.mpesaflow.com/'}>
+          Docs
+        </Link>
+      </div>
+
       <div>
         <SignedOut>
-        <Button>
-          <SignInButton />
+          <Button>
+            <SignInButton />
           </Button>
         </SignedOut>
         <SignedIn>

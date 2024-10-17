@@ -10,7 +10,7 @@ import AppsSelect from "./apps-select";
 import { EnvironmentSelect } from "./enviroment-switch";
 
 
-export default function TopNav({ appId }: { appId: string }) {
+export default function TopNav() {
   return (
     <nav className={cn("border-b border-gray-200 w-full bg-white px-4")}>
       <div className="flex flex-row justify-between w-full mx-auto items-center py-2">
@@ -22,15 +22,18 @@ export default function TopNav({ appId }: { appId: string }) {
           <Icons.slash className="size-5 text-black" />
           <AppsSelect />
           <Icons.slash className="size-5 text-black" />
-          <EnvironmentSelect appId={appId} />
+          <EnvironmentSelect />
         </div>
 
-        <div className="flex flex-row gap-8 items-center">
+        <div className="flex flex-row gap-8 items-center text-gray-500">
           <Button className="flex flex-row items-center">
             <Icons.feedback className="size-4 mr-2" />
             Feedback
           </Button>
-          <h1>Docs</h1>
+          <Link href={'https://docs.mpesaflow.com/'} target="_blank" className="flex flex-row items-center">
+            <Icons.link className="size-4 mr-2" />
+            Docs
+          </Link>
           <SignedIn>
             <UserButton />
           </SignedIn>

@@ -17,6 +17,11 @@ const sideNavLinks = [
     link: "/api-keys",
     icon: Icons.lock,
   },
+  {
+    name: "Analytics",
+    link: "/analytics",
+    icon: Icons.analytics,
+  }
 ];
 
 export default function SideNav() {

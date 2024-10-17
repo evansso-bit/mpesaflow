@@ -40,8 +40,7 @@ export default function DataTable({ KeyId }: { KeyId: string }) {
 
 
   const data = useQuery(api.transactions.getTransactions, {
-    KeyId: KeyId,
-
+    KeyId: 'key_3pC4MZ8CTcg9XUg8cL2AnhDrwouF',
   });
 
   const [sorting, setSorting] = React.useState<SortingState>([]);

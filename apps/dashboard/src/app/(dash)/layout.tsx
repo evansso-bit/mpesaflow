@@ -46,10 +46,10 @@ export const metadata: Metadata = {
 
 export default function DashboardLayout({
   children,
-  params,
+
 }: {
   children: React.ReactNode;
-  params: { appId: string };
+
 }) {
   return (
     <html lang="en">
@@ -71,7 +71,7 @@ export default function DashboardLayout({
         <Providers>
           <div className="flex flex-col h-screen ">
             <div className="fixed top-0 left-0 right-0 z-50">
-              <TopNav appId={params.appId} />
+              <TopNav />
             </div>
             <div className="flex flex-1 pt-16">
               <div className="fixed left-0 top-16 bottom-0 w-[350px] z-40">

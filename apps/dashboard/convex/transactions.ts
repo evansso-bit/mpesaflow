@@ -83,6 +83,7 @@ export const getTransactions = query({
     const transactions = await ctx.db
       .query("transactions")
       .filter((q) => q.eq(q.field("KeyId"), args.KeyId))
+      .order("desc")
       .collect();
 
     return {

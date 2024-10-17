@@ -1,6 +1,9 @@
+
 import {
   ArrowLeftRight,
   ArrowUpDown,
+  ArrowUpRight,
+  ChartColumnIncreasing,
   Code2,
   EllipsisVertical,
   LockIcon,
@@ -10,12 +13,14 @@ import {
   Settings,
   Slash,
   SquarePen,
-  Trash2,
+  Trash2
 } from "lucide-react";
 
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  link: ArrowUpRight,
+  analytics: ChartColumnIncreasing,
   slash: Slash,
   arrowUpDown: ArrowUpDown,
   more: MoreHorizontal,

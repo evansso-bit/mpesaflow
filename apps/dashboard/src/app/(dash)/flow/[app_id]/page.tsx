@@ -2,7 +2,6 @@ import { auth } from "@clerk/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
 import type { Metadata } from "next";
 import { api } from "../../../../../convex/_generated/api";
-import DataChart from "./_components/payments/chart/data-chart";
 import DataTable from "./_components/payments/table/data-table";
 
 export const metadata: Metadata = {
@@ -28,19 +27,10 @@ export default async function AppPage({
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      <h1 className="text-2xl">Transactions Overview {environment}</h1>
-
-      <DataChart />
+      <h1 className="text-2xl">Transactions</h1>
       <div>
         <h1 className="text-lg mb-4">Recent Transactions</h1>
-
-        {keyId ? (
-          <DataTable KeyId={keyId as string} />
-        ) : (
-          <div className="flex-1 text-sm text-muted-foreground">
-            No transactions found. Please create a new transaction.
-          </div>
-        )}
+        <DataTable KeyId={keyId as string} />
       </div>
     </div>
   );
