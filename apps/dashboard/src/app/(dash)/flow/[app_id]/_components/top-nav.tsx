@@ -16,7 +16,8 @@ export default function TopNav() {
       <div className="flex flex-row justify-between w-full mx-auto items-center py-2">
 
         <div className="flex items-center gap-5">
-          <Link className="text-xl font-semibold" href="/">
+          <Link className="text-xl font-semibold font-cal" href="/">
+
             MpesaFlow
           </Link>
           <Icons.slash className="size-5 text-black" />

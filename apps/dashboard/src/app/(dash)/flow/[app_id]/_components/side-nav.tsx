@@ -13,14 +13,14 @@ const sideNavLinks = [
     icon: Icons.transaction,
   },
   {
-    name: "API Keys",
-    link: "/api-keys",
-    icon: Icons.lock,
-  },
-  {
     name: "Analytics",
     link: "/analytics",
     icon: Icons.analytics,
+  },
+  {
+    name: "API Keys",
+    link: "/api-keys",
+    icon: Icons.lock,
   }
 ];
 
