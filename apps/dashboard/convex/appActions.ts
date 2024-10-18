@@ -1,4 +1,6 @@
+import { fetchMutation } from "convex/nextjs";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 
 export const createApplication = mutation({
@@ -179,5 +181,30 @@ export const deleteApplication = mutation({
 		}
 
 		await ctx.db.delete(application._id);
+	},
+});
+
+export const deleteApplications = mutation({
+	args: {
+		userId: v.string(),
+	},
+
+	handler: async (ctx, args) => {
+		const applications = await ctx.db
+			.query("applications")
+			.filter((q) => q.eq(q.field("userId"), args.userId))
+			.collect();
+
+		if (!applications) {
+			throw new Error("Applications not found");
+		}
+
+		// Delete each application individually
+		for (const application of applications) {
+			await fetchMutation(api.apiActions.deleteApiKeys, {
+				applicationId: application.applicationId,
+			});
+			await ctx.db.delete(application._id);
+		}
 	},
 });

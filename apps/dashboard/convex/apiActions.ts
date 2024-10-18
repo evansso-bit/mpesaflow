@@ -1,4 +1,6 @@
+import { fetchMutation } from "convex/nextjs";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 
 export const createApiKey = mutation({
@@ -12,7 +14,6 @@ export const createApiKey = mutation({
 		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		
 		return await ctx.db.insert("apiKeys", {
 			userId: args.userId,
 			name: args.name,
@@ -33,7 +34,6 @@ export const getApiKeys = query({
 	},
 
 	handler: async (ctx, args) => {
-		
 		return await ctx.db
 			.query("apiKeys")
 			.filter((q) =>
@@ -61,13 +61,6 @@ export const updateApiKey = mutation({
 	},
 });
 
-export const deleteApiKey = mutation({
-	args: { id: v.id("apiKeys") },
-	handler: async (ctx, args) => {
-		await ctx.db.delete(args.id);
-	},
-});
-
 export const getApiKeyDetails = query({
 	args: {
 		applicationId: v.string(),
@@ -75,7 +68,6 @@ export const getApiKeyDetails = query({
 		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		
 		return await ctx.db
 			.query("apiKeys")
 			.filter((q) =>
@@ -98,5 +90,31 @@ export const getApiKey = query({
 			.query("apiKeys")
 			.filter((q) => q.eq(q.field("applicationId"), args.applicationId))
 			.first();
+	},
+});
+
+export const deleteApiKey = mutation({
+	args: { id: v.id("apiKeys") },
+	handler: async (ctx, args) => {
+		await ctx.db.delete(args.id);
+	},
+});
+
+export const deleteApiKeys = mutation({
+	args: {
+		applicationId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const apiKeys = await ctx.db
+			.query("apiKeys")
+			.filter((q) => q.eq(q.field("applicationId"), args.applicationId))
+			.collect();
+
+		for (const apiKey of apiKeys) {
+			await fetchMutation(api.transactions.deleteTransactions, {
+				keyId: apiKey.keyId,
+			});
+			await ctx.db.delete(apiKey._id);
+		}
 	},
 });

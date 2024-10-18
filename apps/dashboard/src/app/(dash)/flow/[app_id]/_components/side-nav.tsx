@@ -35,7 +35,7 @@ export default function SideNav() {
   return (
     <nav
       className={cn(
-        "w-full h-full px-3 bg-white py-4 flex flex-col justify-between",
+        "w-full h-full px-3 bg-muted-foreground py-4 flex flex-col justify-between",
         pathname === "/" ? "hidden" : "",
       )}
     >
@@ -47,10 +47,10 @@ export default function SideNav() {
               <Link
                 key={item.name}
                 className={cn(
-                  "flex flex-row gap-2 items-center px-2 transition-all duration-500 rounded-sm py-1.5 hover:bg-muted",
+                  "flex flex-row gap-2 border-r border-gray-500 items-center px-2 transition-all duration-500 rounded-sm py-1.5 hover:bg-muted",
                   pathname === fullPath
                     ? "bg-green-200 text-green-800 hover:bg-green-100"
-                    : "text-gray-500 hover:text-black",
+                    : "text-muted-foreground hover:text-black",
                 )}
                 href={fullPath}
               >
