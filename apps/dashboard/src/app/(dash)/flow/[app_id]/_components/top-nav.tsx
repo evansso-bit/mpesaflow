@@ -27,7 +27,7 @@ export default function TopNav() {
   const navs = [
     {
       name: 'Transactions',
-      href: `/flow/${app_id}/transactions`
+      href: `/flow/${app_id}/`
     },
     {
       name: 'Analytics',
@@ -39,11 +39,11 @@ export default function TopNav() {
     }
   ]
   return (
-    <nav className="flex flex-col gap-2">
+    <nav className="flex flex-col gap-4 mb-10">
       <div className="mb-4">
         <Breadcrumb>
           <BreadcrumbList>
-            {navs.map((nav, index) => (
+            {navs.filter(nav => pathname.includes(nav.href)).map((nav, index) => (
               <BreadcrumbItem key={nav.name}>
                 <BreadcrumbLink href={nav.href}>{nav.name}</BreadcrumbLink>
                 {index < navs.length - 1 && <BreadcrumbSeparator />}

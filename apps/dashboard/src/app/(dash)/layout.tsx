@@ -71,7 +71,7 @@ export default function DashboardLayout({
 
           <Toaster richColors />
 
-          <div className="max-w-[1152px] mx-auto px-4 lg:px-8">
+          <div className="max-w-[1152px] w-full mx-auto px-4 lg:px-8">
             <TopNav />
             {children}
           </div>
