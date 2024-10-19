@@ -45,7 +45,7 @@ export default function TopNav() {
           <BreadcrumbList>
             {navs.filter(nav => pathname.includes(nav.href)).map((nav, index) => (
               <BreadcrumbItem key={nav.name}>
-                <BreadcrumbLink href={nav.href}>{nav.name}</BreadcrumbLink>
+                <BreadcrumbLink href={nav.href} className={pathname === nav.href ? 'text-black' : 'text-gray-500'}>{nav.name}</BreadcrumbLink>
                 {index < navs.length - 1 && <BreadcrumbSeparator />}
               </BreadcrumbItem>
             ))}
