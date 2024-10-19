@@ -66,7 +66,7 @@ export default function HomeLayout({
             <Toaster richColors />
           </header>
 
-          <div>{children}</div>
+          <div className="max-w-[1152px] mx-auto px-4 lg:px-8">{children}</div>
         </Providers>
       </body>
     </html>

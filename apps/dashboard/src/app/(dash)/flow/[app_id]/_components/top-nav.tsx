@@ -4,10 +4,18 @@
 import { cn } from "@mpesaflow/ui/cn";
 import Link from "next/link";
 
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@mpesaflow/ui/breadcrumb";
 import { Separator } from "@mpesaflow/ui/separator";
 import { usePathname } from "next/navigation";
 import { useParams } from "next/navigation";
-
 
 
 
@@ -32,6 +40,18 @@ export default function TopNav() {
   ]
   return (
     <nav className="flex flex-col gap-2">
+      <div className="mb-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            {navs.map((nav, index) => (
+              <BreadcrumbItem key={nav.name}>
+                <BreadcrumbLink href={nav.href}>{nav.name}</BreadcrumbLink>
+                {index < navs.length - 1 && <BreadcrumbSeparator />}
+              </BreadcrumbItem>
+            ))}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       <div className="flex flex-row gap-2">
         {navs.map((nav, index) => (
           <Link key={nav.name} href={nav.href} className={cn("text-gray-500", pathname === nav.href ? "text-black" : "")}>

@@ -5,6 +5,7 @@ import { Providers } from "@//providers/providers";
 import { Toaster } from "@mpesaflow/ui/sonner";
 import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import type { Metadata } from "next";
+import TopNav from "./flow/[app_id]/_components/top-nav";
 
 export const metadata: Metadata = {
   title: {
@@ -70,7 +71,10 @@ export default function DashboardLayout({
 
           <Toaster richColors />
 
-          {children}
+          <div className="max-w-[1152px] mx-auto px-4 lg:px-8">
+            <TopNav />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

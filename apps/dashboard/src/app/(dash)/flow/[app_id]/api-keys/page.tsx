@@ -37,8 +37,8 @@ export default async function AppPage({
 
   return (
     <div className="w-full min-h h-screen flex flex-col gap-9">
-      <div className="flex flex-row w-full h-fit justify-between">
-        <h1 className="text-2xl">API Keys</h1>
+      <div className="flex flex-row w-full justify-end">
+
 
         <div
           className={cn("flex flex-row gap-7", data.length === 0 && "hidden")}

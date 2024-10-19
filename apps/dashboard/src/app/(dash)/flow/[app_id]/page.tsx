@@ -26,8 +26,7 @@ export default async function AppPage({
 
 
   return (
-    <div className="flex flex-col gap-5 w-full">
-      <h1 className="text-2xl">Transactions</h1>
+    <div className="flex">
 
       <DataTable KeyId={keyId as string} />
 
