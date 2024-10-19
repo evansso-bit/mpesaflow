@@ -1,12 +1,10 @@
 
 import { cn } from "@mpesaflow/ui/cn";
-import SideNav from "./flow/[app_id]/_components/side-nav";
 import "@mpesaflow/ui/globals.css";
 import { Providers } from "@//providers/providers";
 import { Toaster } from "@mpesaflow/ui/sonner";
 import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import type { Metadata } from "next";
-import TopNav from "./flow/[app_id]/_components/top-nav";
 
 export const metadata: Metadata = {
   title: {
@@ -69,21 +67,10 @@ export default function DashboardLayout({
           <link rel="manifest" href="/site.webmanifest" />
         </head>
         <Providers>
-          <div className="flex flex-col h-screen ">
-            <div className="fixed top-0 left-0 right-0 z-50">
-              <TopNav />
-            </div>
-            <div className="flex flex-1 pt-16">
-              <div className="fixed left-0 top-16 bottom-0 w-[350px] z-40">
-                <SideNav />
-                <Toaster richColors />
-              </div>
-              <main className="flex-1 ml-[350px] p-6 overflow-y-auto">
 
-                {children}
-              </main>
-            </div>
-          </div>
+          <Toaster richColors />
+
+          {children}
         </Providers>
       </body>
     </html>

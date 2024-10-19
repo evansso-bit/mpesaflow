@@ -4,7 +4,7 @@ import { Providers } from "@//providers/providers";
 import { cn } from "@mpesaflow/ui/cn";
 import { Toaster } from "@mpesaflow/ui/sonner";
 import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
-import MainNav from "./_components/main-nav";
+
 
 
 export const metadata: Metadata = {
@@ -63,7 +63,6 @@ export default function HomeLayout({
       >
         <Providers>
           <header>
-            <MainNav />
             <Toaster richColors />
           </header>
 

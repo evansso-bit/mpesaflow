@@ -2,18 +2,17 @@ import type { Metadata } from "next";
 import { CreateApplicationForm } from "./_components/create-application-form";
 
 export const metadata: Metadata = {
-    title: "Create Application"
-}
-
+  title: "Create Application",
+};
 
 export default function NewApplication() {
-
-    return (
-        <div className="w-full h-full mt-20 max-w-3xl flex flex-col justify-center gap-4 mx-auto">
-            <h1 className="text-2xl">Lets Create an application</h1>
-
-            <CreateApplicationForm />
-        </div>
-    )
+  return (
+    <div className="flex flex-col max-w-5xl w-full mx-auto  gap-10  ">
+      <div className="flex flex-col gap-2">
+        <h1 className="lg:text-2xl text-xl">Create an application</h1>
+        <p className="text-gray-500">Let's create an application</p>
+      </div>
+      <CreateApplicationForm />
+    </div>
+  );
 }
-

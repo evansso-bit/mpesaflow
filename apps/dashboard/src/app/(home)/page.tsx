@@ -9,8 +9,11 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   return (
-    <div className="max-w-6xl w-full mx-auto min-h-screen">
-      <h1 className="text-2xl mt-9 mb-9">Applications</h1>
+    <div className="flex flex-col max-w-5xl w-full mx-auto gap-5">
+      <div className="flex flex-col gap-2">
+        <h1 className="lg:text-2xl text-xl">Applications</h1>
+        <p className="text-gray-500">Manage your applications</p>
+      </div>
 
       <Suspense fallback={<Skeleton className="w-full h-[350px]" />}>
         <AppGrid />

@@ -16,7 +16,7 @@ export default function MainNav() {
 
   return (
     <nav className={cn("border-b border-gray-200 w-full")}>
-      <div className="flex flex-row justify-between w-full max-w-7xl mx-auto items-center px-4 py-2">
+      <div className="flex flex-row justify-between mx-auto items-center  ">
         <Link href="/">
           <h1 className="text-xl text-[#23C55F] ">MpesaFlow</h1>
         </Link>

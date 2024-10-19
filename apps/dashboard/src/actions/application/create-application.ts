@@ -5,11 +5,12 @@ import { fetchMutation } from "convex/nextjs";
 import { api } from "../../../convex/_generated/api";
 
 export async function createApplicationAction(
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	prevState: any,
 	formData: FormData
 ) {
 	const applicationId = crypto.randomUUID();
-	const { userId } = auth()
+	const { userId } = auth();
 
 	try {
 		const Name = formData.get("name") as string;

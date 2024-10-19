@@ -1,6 +1,6 @@
 
 import "@mpesaflow/ui/globals.css";
-import { Providers } from "@//providers/providers";
+import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@mpesaflow/ui/cn";
 import { calSans, inter } from "@mpesaflow/ui/styles/fonts";
 import type { Metadata } from "next";
@@ -57,9 +57,9 @@ export default function AuthLayout({
           calSans.variable,
         )}
       >
-        <Providers>
+        <ClerkProvider>
           {children}
-        </Providers>
+        </ClerkProvider>
       </body>
     </html>
 

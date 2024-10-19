@@ -1,45 +1,45 @@
 "use client";
 
 
-import { SignedIn, UserButton } from "@clerk/nextjs";
-import { Button } from "@mpesaflow/ui/button";
 import { cn } from "@mpesaflow/ui/cn";
-import { Icons } from "@mpesaflow/ui/icons";
 import Link from "next/link";
-import AppsSelect from "./apps-select";
-import { EnvironmentSelect } from "./enviroment-switch";
+
+import { Separator } from "@mpesaflow/ui/separator";
+import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
+
+
 
 
 export default function TopNav() {
+  const pathname = usePathname();
+  const params = useParams<{ app_id: string }>();
+  const app_id = params.app_id;
+
+  const navs = [
+    {
+      name: 'Transactions',
+      href: `/flow/${app_id}/transactions`
+    },
+    {
+      name: 'Analytics',
+      href: `/flow/${app_id}/analytics`
+    },
+    {
+      name: 'API keys',
+      href: `/flow/${app_id}/api-keys`
+    }
+  ]
   return (
-    <nav className={cn("border-b border-gray-200 w-full bg-white px-4")}>
-      <div className="flex flex-row justify-between w-full mx-auto items-center py-2">
-
-        <div className="flex items-center gap-5">
-          <Link className="text-xl font-semibold font-cal" href="/">
-
-            MpesaFlow
+    <nav className="flex flex-col gap-2">
+      <div className="flex flex-row gap-2">
+        {navs.map((nav, index) => (
+          <Link key={nav.name} href={nav.href} className={cn("text-gray-500", pathname === nav.href ? "text-black" : "")}>
+            {nav.name}
           </Link>
-          <Icons.slash className="size-5 text-black" />
-          <AppsSelect />
-          <Icons.slash className="size-5 text-black" />
-          <EnvironmentSelect />
-        </div>
-
-        <div className="flex flex-row gap-8 items-center text-gray-500">
-          <Button className="flex flex-row items-center">
-            <Icons.feedback className="size-4 mr-2" />
-            Feedback
-          </Button>
-          <Link href={'https://docs.mpesaflow.com/'} target="_blank" className="flex flex-row items-center">
-            <Icons.link className="size-4 mr-2" />
-            Docs
-          </Link>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
+        ))}
       </div>
+      <Separator orientation="horizontal" className="w-full" />
     </nav>
   );
 }
